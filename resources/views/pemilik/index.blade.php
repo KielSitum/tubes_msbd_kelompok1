@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Pemilik Apotek | Home</title>
+    <title>Toko Obat Subur Tigarunggu</title>
     @vite('resources/css/app.css')
 
     {{-- FONT AWESOME --}}
@@ -89,35 +89,7 @@
             </div>
 
             <div class="md:flex gap-6">
-                <div class="bg-white p-8 rounded-lg shadow-lg w-full flex flex-col items-center justify-center">
-                    <p class="text-xl font-bold">Produk Populer</p>
-
-                    {{-- line --}}
-                    <div class="w-[90%] shadow border border-mainColor my-3"></div>
-
-                    <table>
-                        <tbody>
-                            @php
-                                $i = 1;
-                            @endphp
-                            @foreach ($popular as $item)
-                                
-                            <tr class="md:flex justify-between items-center gap-8">
-                                <td>{{$i++}}</td>
-                                <td class="w-[160px] h-[140px] invisible">
-                                    <img src="{{asset('img/obat1.jpg')}}" alt="" class="sm:visible w-25 p-5">
-                                </td>
-                                <td class="w-80">
-                                    <p class="font-bold">{{ $item->product_name }}</p>
-                                </td>
-                                <td>
-                                    <p class="font-bold text-mainColor">{{ $item->jumlah_kemunculan }}</p>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                
 
                 <div class="bg-white p-8 rounded-lg shadow-lg w-full flex flex-col items-center justify-center">
                     <p class="text-xl font-bold">Laporan Keuntungan</p>

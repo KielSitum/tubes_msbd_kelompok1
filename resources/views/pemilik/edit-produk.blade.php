@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Pemilik Apotek | Edit Produk</title>
+    <title>Toko Obat Subur Tigarunggu</title>
     @vite('resources/css/app.css')
 
     {{-- FONT AWESOME --}}
@@ -123,17 +123,6 @@
                                 <div class="text-xs text-mediumRed">{{ $message }}</div>
                             @enderror
 
-                            <p class="mt-5">Tipe Obat</p>
-                            {{-- tipe --}}
-                            <div class="w-full rounded-xl border shadow p-2">
-                                <select name="tipe" id="" @selected(true) class="outline-none w-full">
-                                    @foreach ($types as $item)
-                                        <option value="{{ $item }}" {{ $product->description->product_type == $item ? 'selected' : '' }}>
-                                            {{ $item }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
                         </div>
 
                         <div class="flex-col w-full">

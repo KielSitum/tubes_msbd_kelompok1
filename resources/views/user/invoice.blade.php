@@ -114,13 +114,13 @@
             <td class="font-bold">Syarat dan Ketentuan :</td>
           </tr>
           <tr>
-            <td class="text-lg">Transaksi yang sudah direspon oleh Apotek Jati Negara tidak dapat dibatalkan, kecuali dalam kondisi adanya pembatalan dari pihak Apotek Jati Negara</td>
+            <td class="text-lg">Transaksi yang sudah direspon oleh Toko Obat Subur Tigarunggu tidak dapat dibatalkan, kecuali dalam kondisi adanya pembatalan dari pihak Toko Obat Subur Tigarunggu</td>
           </tr>
         </table>
       </div>
   <div class="flex justify-evenly items-center w-full mt-10 h-32 bg-black background_black">
     <div class="">
-      <p class="text-white font-bold text-2xl">APOTEK JATI NEGARA</p>
+      <p class="text-white font-bold text-2xl">Toko Obat Subur Tigarunggu</p>
       <p class="text-white font-bold text-sm">CP : 0812-3456-7890 (Aliong)</p>
     </div>
       <p class="text-justify text-white w-1/3">Jl. Prof. H. M. Yamin No.116, Sidodadi, Kec. Medan Timur, Kota Medan, Sumatera Utara 20233</p>

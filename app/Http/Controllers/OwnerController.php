@@ -10,7 +10,6 @@ use App\Models\Group;
 use App\Models\Unit;
 use App\Models\InvoiceSelling;
 use App\Models\InvoiceBuying;
-use App\Models\PopularProduct;
 use App\Models\LastTransaction;
 use App\Models\DeskripsiProduk;
 use App\Models\DetailProduk;
@@ -33,7 +32,6 @@ class OwnerController extends Controller
 {
     public function display()
     {
-        $popular = PopularProduct::on('owner')->take(4)->get();
         $count_product = Produk::on('owner')->count();
         $count_supplier = Supplier::on('owner')->count();
         $count_user = User::on('owner')->where('role', 'user')->count();
@@ -59,7 +57,6 @@ class OwnerController extends Controller
         $resultsArray = $results->toArray();
 
         return view ('pemilik.index', [
-            'popular' => $popular,
             'product' => $count_product,
             'supplier' => $count_supplier,
             'pending' => $count_pending,

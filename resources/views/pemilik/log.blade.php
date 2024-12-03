@@ -21,7 +21,7 @@
         @include("pemilik.components.navbar")
 
         <div class="flex flex-col gap-8 mt-10">
-            <p class="text-3xl font-bold">Log Apotek</p>
+            <p class="text-3xl font-bold">Log Toko Obat</p>
 
             <div class="bg-white rounded-lg p-4 shadow-md">
                 <table id="myTable" class="table table-striped">

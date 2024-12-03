@@ -119,20 +119,7 @@ class LiveshowProduct extends Component
 
         // filter
         if ($this->filter) {
-            if ($this->filter == "Popular") {
-                if($this->golongan || $this->kategori || $this->bentuk || $this->maksimum || $this->minimum) {
-                    $product = Produk::on('user')->join('Selling_Invoice_Details', 'Produk.product_name', '=', 'Selling_Invoice_Details.product_name')
-                    ->whereIn('Produk.product_name', $product->pluck('product_name')->toArray())
-                    ->select('Produk.*', DB::connection('user')->raw('COUNT(Selling_Invoice_Details.product_name) as jumlah_kemunculan'))
-                    ->groupBy('Produk.product_id', 'Produk.description_id', 'Produk.product_name')
-                    ->orderBy('jumlah_kemunculan', 'DESC');
-                }else{
-                    $product = Produk::on('user')->join('Selling_Invoice_Details', 'Products.product_name', '=', 'Selling_Invoice_Details.product_name')
-                    ->select('Products.*', DB::connection('user')->raw('COUNT(Selling_Invoice_Details.product_name) as jumlah_kemunculan'))
-                    ->groupBy('Produk.product_id', 'Produk.description_id', 'Produk.product_name')
-                    ->orderBy('jumlah_kemunculan', 'DESC');
-                }
-            }
+
             
             if ($this->filter == "Nama A - Z"){
                 if($this->golongan || $this->kategori || $this->bentuk || $this->minimum || $this->maksimum) {

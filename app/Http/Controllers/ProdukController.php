@@ -142,22 +142,7 @@ class ProdukController extends Controller
         // akhir filter harga
 
         // filter
-        if ($request->filter) {
-            if ($request->filter == "Popular") {
-                if($request->golongan || $request->kategori || $request->bentuk || $request->maksimum || $request->minimum) {
-                    $product = Produk::join('Selling_Invoice_Details', 'Produk.product_name', '=', 'Selling_Invoice_Details.product_name')
-                    ->whereIn('Produk.product_name', $product->pluck('product_name')->toArray())
-                    ->select('Produk.*', DB::raw('COUNT(Selling_Invoice_Details.product_name) as jumlah_kemunculan'))
-                    ->groupBy('Produk.product_id', 'Produk.description_id', 'Produk.product_name')
-                    ->orderBy('jumlah_kemunculan', 'DESC');
-                }else{
-                    $product = Produk::join('Selling_Invoice_Details', 'Produk.product_name', '=', 'Selling_Invoice_Details.product_name')
-                    ->select('Produk.*', DB::raw('COUNT(Selling_Invoice_Details.product_name) as jumlah_kemunculan'))
-                    ->groupBy('Produk.product_id', 'Produk.description_id', 'Produk.product_name')
-                    ->orderBy('jumlah_kemunculan', 'DESC');
-                }
-            }
-            
+        if ($request->filter) {          
             if ($request->filter == "Nama A - Z"){
                 if($request->golongan || $request->kategori || $request->bentuk || $request->minimum || $request->maksimum) {
                     $product = $product->orderBy('product_name');

@@ -143,7 +143,7 @@
     var data = [];
 
     // Baris pertama untuk keterangan dinamis
-    data.push(['LAPORAN KEUANGAN APOTEK JATI NEGARA']);
+    data.push(['LAPORAN KEUANGAN Toko Obat Subur Tigarunggu']);
 
     // Baris kedua untuk bulan dan tahun (dikapital dan bold)
     var formattedMonth = '{{ $formattedMonth }}'.toUpperCase();

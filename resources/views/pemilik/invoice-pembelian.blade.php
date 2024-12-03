@@ -68,7 +68,7 @@
 
         <main>
             <div class="py-8 tracking-wider flex flex-col gap-4">
-                <p class="font-bold pl-20 text-xl">APOTEK JATI NEGARA</p>
+                <p class="font-bold pl-20 text-xl">Toko Obat Subur Tigarunggu</p>
                 <hr class="w-64 border border-black">
 
                 <div class="flex flex-col pl-20 gap-4">
@@ -123,7 +123,7 @@
             <div class="w-full flex justify-center pt-4">
                 <div class="flex flex-col w-[90%]">
                     <p class="font-bold text-xl tracking-widest">SYARAT DAN KETENTUAN</p>
-                    <p class="font-semibold text-mediumGrey">Transaksi yang sudah direspon oleh Apotek Jati Negara tidak dapat dibatalkan, kecuali dalam kondisi adanya pembatalan dari pihak Apotek Jati Negara</p>
+                    <p class="font-semibold text-mediumGrey">Transaksi yang sudah direspon oleh Toko Obat Subur Tigarunggu tidak dapat dibatalkan, kecuali dalam kondisi adanya pembatalan dari pihak Toko Obat Subur Tigarunggu</p>
                 </div>
             </div>  
         </main>
@@ -131,7 +131,7 @@
         <footer class="w-full flex justify-center mt-16 print:mt-10">
             <div class="bg-black text-white flex justify-between w-[90%] px-16 py-8">
                 <div class="flex flex-col justify-center w-3/5">
-                    <p class="text-xl tracking-widest font-bold">APOTEK JATI NEGARA</p>
+                    <p class="text-xl tracking-widest font-bold">Toko Obat Subur Tigarunggu</p>
                     <p class="text-md font-semibold">CP : 0812-3456-7890 (Aliong)</p>
                 </div>
                 

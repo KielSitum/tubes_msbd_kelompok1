@@ -18,7 +18,6 @@ use App\Models\Kasir;
 use App\Models\Kategori;
 use App\Models\Customer;
 use App\Models\Group;
-use App\Models\Information;
 use App\Models\Produk;
 use App\Models\DetailProduk;
 use App\Models\InvoiceSelling;
@@ -44,15 +43,6 @@ Route::get('/', [ProdukController::class, 'home'])->name('home');
 
 Route::get('/produk', [ProdukController::class,'produk'])->name('produk');
 Route::get('/deskripsi/{product}', [ProdukController::class,'deskripsiProduk'])->name('deskripsi-produk');
-
-Route::get('/s&k', function () {
-    $apotek = Information::first();
-    // dd($nama_toko);
-
-    return view('user.syarat-ketentuan', [
-        'apotek'=> $apotek,
-    ]);
-});
 
 Route::get('/cara-belanja', function () {
         return view('user.cara-belanja');
