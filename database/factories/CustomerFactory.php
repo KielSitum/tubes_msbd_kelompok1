@@ -19,7 +19,7 @@ class CustomerFactory extends Factory
     public function definition(): array
     {
         $user_id = User::where('role', 'user')->pluck('user_id')->all();
-        $id = fake()->unique()->randomElement($user_id);
+        $id = fake()->randomElement($user_id);
 
         return [
             'customer_id' => fake()->uuid,
