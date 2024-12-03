@@ -93,7 +93,7 @@ public function riwayatTransaksi()
             foreach($order->invoiceSellingDetail as $detail) {
                 $product_id = Produk::on('cashier')->where('product_name', $detail->product_name)->first()->product_id;
                 // dd($product_id);
-                DB::connection('cashier')->select("CALL stock_back(?, ?)", array($detail->quantity, $product_id));
+                DB::connection('cashier')->select("CALL sendback_stock(?, ?)", array($detail->quantity, $product_id));
             }
             DB::commit();
     
@@ -125,7 +125,7 @@ public function riwayatTransaksi()
                         foreach($order->invoiceSellingDetail as $detail) {
                             $product_id = Produk::on('cashier')->where('product_name', $detail->product_name)->first()->product_id;
                             // dd($product_id);
-                            DB::connection('cashier')->select("CALL stock_back(?, ?)", array($detail->quantity, $product_id));
+                            DB::connection('cashier')->select("CALL sendback_stock(?, ?)", array($detail->quantity, $product_id));
                         }
                         
                     DB::commit();
@@ -146,7 +146,7 @@ public function riwayatTransaksi()
                         foreach($order->invoiceSellingDetail as $detail) {
                             $product_id = Produk::on('cashier')->where('product_name', $detail->product_name)->first()->product_id;
                             // dd($product_id);
-                            DB::connection('cashier')->select("CALL stock_back(?, ?)", array($detail->quantity, $product_id));
+                            DB::connection('cashier')->select("CALL sendback_stock(?, ?)", array($detail->quantity, $product_id));
                         }
                         
                     DB::commit();

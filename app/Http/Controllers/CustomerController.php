@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\notifikasi_pembelian;
 use App\Models\Produk;
 use App\Models\User;
 
@@ -129,12 +128,6 @@ class CustomerController extends Controller
                 // menghapus product dari cart
                 $produk->delete();
                 // selesai menghapus product dari cart
-            }
-
-            $alamatEmails = User::on('user')->where('role', 'cashier')->get();
-
-            foreach($alamatEmails as $alamatEmail){
-                Mail::to($alamatEmail)->send(new notifikasi_pembelian());
             }
 
             $status = true;

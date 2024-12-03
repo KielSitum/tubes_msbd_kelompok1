@@ -13,9 +13,9 @@ return new class extends Migration
     public function up(): void
     {
         $sql = "
-        DROP PROCEDURE IF EXISTS stock_back;
+        DROP PROCEDURE IF EXISTS sendback_stock;
 
-        CREATE PROCEDURE stock_back(IN stock INT, IN product CHAR(36))
+        CREATE PROCEDURE sendback_stock(IN stock INT, IN product CHAR(36))
         BEGIN 
             UPDATE detail_produk
             SET product_stock = product_stock + stock
