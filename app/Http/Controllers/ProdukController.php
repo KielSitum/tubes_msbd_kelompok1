@@ -47,25 +47,10 @@ class ProdukController extends Controller
             }
         }
     
-        $products_best_seller = DB::table('bestsellerproduct_view')->get();
-        $product_best_seller = [];
-    
-        if ($products_best_seller->count() > 0) {
-            foreach ($products_best_seller as $p) {
-                $produk = Produk::where('product_name', $p->product_name)
-                    ->where('product_status', 'aktif')
-                    ->first();
-                if ($produk) {
-                    $product_best_seller[] = DB::table('product_view')->where('product_name', $p->product_name)->get();
-                }
-            }
-        }
-    
         return view("user.index", [
             "title" => "Toko Obat Subur Tigarunggu",
             "categories" => Kategori::orderBy('category')->get() ?? [],
             "products_last_purcase" => collect($products ?? [])->take(5),
-            "products_best_seller" => collect($product_best_seller ?? [])->take(5),
             "products" => $products,
             "products_random" => $products_random,
 

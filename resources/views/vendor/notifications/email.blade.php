@@ -2,91 +2,39 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifikasi Alamat Email</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(90deg, rgba(26, 136, 137, 1) 0%, rgba(26, 136, 137, 1) 35%, rgba(167, 211, 212, 1) 100%);
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            background-color: #ffff;
-            border-radius: 15px;
-            padding: 20px;
-            width: 90%;
-            max-width: 400px;
-            /* Adjust the max-width as needed */
-            box-shadow: 0 0 10px rgba(4, 6, 4, 0.5);
-            text-align: center;
-        }
-
-        h1 {
-            color: #333;
-            font-weight: bold;
-        }
-
-        p {
-            color: #666;
-        }
-
-        .button {
-            display: inline-block;
-            background-color: #F7A623;
-            color: #fff;
-            padding: 10px 20px;
-            font-weight: 600;
-            border-radius: 15px;
-            text-decoration: none;
-            font-size: 18px;
-            margin-top: 20px;
-        }
-
-        .button:hover {
-            background-color: #fff;
-            color: #F7A623;
-            border: 2px solid #F7A623;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                width: 95%;
-                padding: 15px;
-            }
-
-            h1 {
-                font-size: 24px;
-            }
-
-            p {
-                font-size: 16px;
-                margin-top: 10px;
-            }
-
-            .button {
-                font-size: 16px;
-                padding: 8px 16px;
-                margin-top: 15px;
-            }
-        }
     </style>
 </head>
 
-<body>
-    <div class="container" style="background-color: #ffff; border-radius: 15px; padding: 20px; width: 90%; max-width: 400px; box-shadow: 0 0 10px rgba(4, 6, 4, 0.5); text-align: center;">
-
-        <h1 style="color: #333; font-weight: bold; text-align:center">Verifikasi Alamat Email Anda</h1>
-        <p style="color: #666;">Untuk mengonfirmasi alamat email Anda, silahkan klik tombol di bawah ini.</p>
-        <a href="{{ $actionUrl }}" class="button" style="display: inline-block; background-color: #F7A623; color: #fff; padding: 10px 20px; font-weight: 600; border-radius: 15px; text-decoration: none; font-size: 18px; margin-top: 20px;">Verifikasi</a>
-
-    </div>
+<body style="font-family: 'Inter', sans-serif; background-color: #e0f7fa; margin: 0; padding: 0;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin: 0; padding: 20px;">
+        <tr>
+            <td align="center">
+                <h1 style="font-size: 28px; color: #00796b; font-weight: bold; margin-bottom: 20px;">Toko Obat Subur</h1>
+                <table cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width: 400px; background-color: #ffffff; border-radius: 15px; box-shadow: 0 0 15px rgba(0, 150, 136, 0.3);">
+                    <tr>
+                        <td style="padding: 20px; text-align: center;">
+                            <h1 style="font-size: 24px; color: #004d40; font-weight: bold; margin-bottom: 10px;">Verifikasi Alamat Email Anda</h1>
+                            <p style="font-size: 16px; color: #00796b; margin: 0 0 20px;">Untuk mengonfirmasi alamat email Anda, silahkan klik tombol di bawah ini.</p>
+                            <a href="{{ $actionUrl }}" style="display: inline-block; background-color: #ff7043; color: #ffffff; padding: 10px 20px; font-weight: 600; border-radius: 15px; text-decoration: none; font-size: 18px;">Verifikasi</a>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width: 400px; margin-top: 20px;">
+                    <tr>
+                        <td style="text-align: center; color: #004d40; font-size: 12px;">
+                            <p>Jika Anda tidak meminta verifikasi ini, Anda dapat mengabaikan email ini.</p>
+                            <p>&copy; 2024 Perusahaan Anda, Semua Hak Dilindungi.</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 </body>
 
 </html>
