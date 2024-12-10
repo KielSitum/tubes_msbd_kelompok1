@@ -48,7 +48,7 @@
     <button type="button" onclick="exportToExcel()" class="no-print bg-mainColor rounded-lg px-5 py-3 my-5 text-end text-white m-auto ml-1">Unduh Tabel sebagai Excel</button>
   </div>
 <div class="pt-10" id="print-content">
-  <button class="w-[140px] h-[40px] ms-8 bg-black background_black rounded-tl-3xl rounded-br-3xl shadow text-xl text-white font-bold text-center">Jati Negara</button>
+  <button class="w-[140px] h-[40px] ms-8 bg-black background_black rounded-tl-3xl rounded-br-3xl shadow text-xl text-white font-bold text-center">Toko Obat Subur</button>
     <div class="p-8">
       <div class="mt-4">
       <table class="w-full" id="report">
