@@ -43,7 +43,7 @@
     </div>
 
     <!-- Bagian bawah dengan warna oranye lebih lebar -->
-    <div class="bg-[#f39c12] w-full py-8 text-left px-6">
+    <div class="bg-[#2d98da] w-full py-8 text-left px-6">
         <p class="text-[#f5f5dc] font-bold text-2xl font-poppins">
             © 2024 - Toko Obat Subur. All Right Reserved.
         </p>
