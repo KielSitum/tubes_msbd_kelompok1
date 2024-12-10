@@ -37,40 +37,41 @@ Website ini dirancang untuk:
          npm install
    - #### Salin env:
          cp .env.example .env
-   - ### Tambahkan ini di file .env supaya saat adanya penggunaan user privilege yang berbed
-                DB_HOST=127.0.0.1
-                DB_PORT=3306
-                DB_DATABASE=tokoobat
-                DB_USERNAME=root
-                DB_PASSWORD=
-    
-                DB_HOST_CUSTOMER=127.0.0.1
-                DB_PORT_CUSTOMER=3306
-                DB_DATABASE_CUSTOMER=tokoobat
-                DB_USERNAME_CUSTOMER=root
-                DB_PASSWORD_CUSTOMER=    
-    
-                DB_HOST_CASHIER=127.0.0.1
-                DB_PORT_CASHIER=3306
-                DB_DATABASE_CASHIER=tokoobat
-                DB_USERNAME_CASHIER=root
-                DB_PASSWORD_CASHIER=           
-    
-                DB_HOST_OWNER=127.0.0.1
-                DB_PORT_OWNER=3306
-                DB_DATABASE_OWNER=tokoobat
-                DB_USERNAME_OWNER=root
-                DB_PASSWORD_OWNER=
+   - ### Tambahkan ini di file .env supaya saat adanya penggunaan user privilege yang berbeda
+     
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=tokoobat
+    DB_USERNAME=root
+    DB_PASSWORD=
+        
+    DB_HOST_CUSTOMER=127.0.0.1
+    DB_PORT_CUSTOMER=3306
+    DB_DATABASE_CUSTOMER=tokoobat
+    DB_USERNAME_CUSTOMER=root
+    DB_PASSWORD_CUSTOMER=    
+        
+    DB_HOST_CASHIER=127.0.0.1
+    DB_PORT_CASHIER=3306
+    DB_DATABASE_CASHIER=tokoobat
+    DB_USERNAME_CASHIER=root
+    DB_PASSWORD_CASHIER=           
+        
+    DB_HOST_OWNER=127.0.0.1
+    DB_PORT_OWNER=3306
+    DB_DATABASE_OWNER=tokoobat
+     DB_USERNAME_OWNER=root
+    DB_PASSWORD_OWNER=
     
    - #### Ubah Pengaturan Mail
-                MAIL_MAILER=smtp
-                MAIL_HOST=smtp.gmail.com
-                MAIL_PORT=465
-                MAIL_USERNAME="Emailmu"
-                MAIL_PASSWORD="password" 
-                MAIL_ENCRYPTION=null
-                MAIL_FROM_ADDRESS="Emailmu"
-                MAIL_FROM_NAME="${APP_NAME}"
+    MAIL_MAILER=smtp
+    MAIL_HOST=smtp.gmail.com
+    MAIL_PORT=465
+    MAIL_USERNAME="Emailmu"
+    MAIL_PASSWORD="password" 
+    MAIL_ENCRYPTION=null
+    MAIL_FROM_ADDRESS="Emailmu"
+    MAIL_FROM_NAME="${APP_NAME}"
    - ####
          - php artisan key:generate
    - ####
