@@ -1,14 +1,14 @@
-<nav class="navbar shadow-lg fixed top-0 left-0 w-full z-50 bg-white">
-    <div class="container mx-auto px-4 md:px-8 flex justify-between items-center h-16">
+<nav class="navbar shadow-lg fixed top-0 left-0 w-full z-50 transition-colors duration-300 rounded-b-xl" id="navbar">
+    <div class="container max-w-full mx-auto px-4 md:px-24 flex justify-between items-center h-20">
         <!-- Logo -->
-        <a href="/" class="text-[#3498db] font-bold text-2xl">
+        <a href="/" class="navbar-title text-[#3498db] font-bold text-2xl" style="font-family: 'Poppins', sans-serif;">
             Toko Obat Subur
         </a>
 
         <!-- Menu -->
-        <div class="flex gap-6 items-center">
+        <div class="flex gap-6 items-center" style="font-family: 'Poppins', sans-serif;">
             @guest
-            <a href="/login" class="btn-secondary">Masuk</a>
+            <a href="/login" class="btn-secondary navbar-btn">Masuk</a>
             @else
                 @if (auth()->user()->role == 'user')
                 <a href="/produk" class="menu-link">Produk</a>
@@ -67,7 +67,7 @@
                 });
             });
         }
-    }
+    };
 
     const menu = document.querySelector('#dropdownMenu');
 
@@ -79,28 +79,26 @@
         }
     });
 
-    // Show Scroll to Top Button when scrolled down
-    window.onscroll = () => {
-        const scrollTopBtn = document.getElementById("scrollTopBtn");
-        if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-            scrollTopBtn.classList.remove("hidden");
-        } else {
-            scrollTopBtn.classList.add("hidden");
-        }
-    }
-
-    // Scroll to Top Function
-    const scrollToTop = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
 </script>
 
 <style>
     /* Navbar Style */
     .navbar {
-        background-color: #ffffff;
+        background-color: #ffeaa3;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease;
+    }
+
+    .navbar.scrolled {
+        background-color: #2d98da !important; /* Light Blue */
+    }
+
+    .navbar-title {
+        transition: color 0.3s;
+    }
+
+    .navbar.scrolled .navbar-title {
+        color: #ffeaa3 !important; /* Cream */
     }
 
     .menu-link {
@@ -109,6 +107,7 @@
         font-weight: 600;
         text-decoration: none;
         transition: color 0.3s;
+        font-family: 'Poppins', sans-serif;
     }
 
     .menu-link:hover {
@@ -118,13 +117,14 @@
     /* Button Styles */
     .btn-primary {
         background-color: #2980b9;
-        color: #ffffff;
+        color: #ffeaa3;
         padding: 0.5rem 1rem;
         border-radius: 0.375rem;
         font-size: 1rem;
         font-weight: 600;
         text-align: center;
         transition: background-color 0.3s;
+        font-family: 'Poppins', sans-serif;
     }
 
     .btn-primary:hover {
@@ -141,22 +141,29 @@
         font-weight: 600;
         text-align: center;
         transition: all 0.3s;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .navbar.scrolled .btn-secondary {
+        color: #ffeaa3 !important; /* Cream */
+        border-color: #ffeaa3 !important;
     }
 
     .btn-secondary:hover {
         background-color: #2980b9;
-        color: #ffffff;
+        color: #ffeaa3;
     }
 
     .btn-danger {
         background-color: #e74c3c;
-        color: #ffffff;
+        color: #ffeaa3;
         padding: 0.5rem 1rem;
         border-radius: 0.375rem;
         font-size: 1rem;
         font-weight: 600;
         text-align: center;
         transition: background-color 0.3s;
+        font-family: 'Poppins', sans-serif;
     }
 
     .btn-danger:hover {
@@ -169,11 +176,12 @@
         right: 0;
         top: 100%;
         width: 12rem;
-        background-color: #ffffff;
+        background-color: #ffeaa3;
         border-radius: 0.375rem;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         overflow: hidden;
         z-index: 10;
+        font-family: 'Poppins', sans-serif;
     }
 
     .dropdown-item {
@@ -183,6 +191,7 @@
         color: #3498db;
         text-decoration: none;
         transition: background-color 0.3s, color 0.3s;
+        font-family: 'Poppins', sans-serif;
     }
 
     .dropdown-item:hover {
@@ -196,7 +205,7 @@
         bottom: 1.5rem;
         right: 1.5rem;
         background-color: #2980b9;
-        color: #ffffff;
+        color: #ffeaa3;
         border-radius: 50%;
         width: 3rem;
         height: 3rem;
@@ -206,6 +215,7 @@
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         cursor: pointer;
         transition: transform 0.3s;
+        font-family: 'Poppins', sans-serif;
     }
 
     .scroll-top-btn:hover {
@@ -213,3 +223,15 @@
         background-color: #1a5780;
     }
 </style>
+
+<script>
+    // Change Navbar Class on Scroll
+    window.onscroll = () => {
+        const navbar = document.getElementById('navbar');
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    };
+</script>
