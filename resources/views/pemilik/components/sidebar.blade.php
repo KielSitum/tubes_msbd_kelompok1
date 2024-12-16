@@ -1,6 +1,6 @@
 <div class="font-TripBold bg-white h-screen fixed w-0 z-10 " id="sidebar" style="transition: 0.3s;">
     <div class="overflow-x-hidden overflow-y-hidden pt-10 flex justify-center w-full" style="transition: 0.3s;">
-        <p class="bg-mainColor text-white font-bold px-7 py-1 rounded-br-xl rounded-tl-xl text-lg">Toko Obat Subur</p>
+        <p class="bg-mainColor text-white font-bold px-7 py-1 rounded-br-xl rounded-tl-xl text-lg">Jati Negara</p>
     </div>
 
     {{-- line --}}
@@ -76,6 +76,13 @@
         </div>
 
         <div class="overflow-x-hidden text-mediumGrey my-4" style="transition: 0.3s;">
+            <a href="/owner/promo" class="flex items-center text-lg">
+                <i class="fa-regular fa-folder-open me-3"></i>
+                <p>Promo</p>
+            </a>
+        </div>
+
+        <div class="overflow-x-hidden text-mediumGrey my-4" style="transition: 0.3s;">
             <form action="/logout" method="POST">
                 @csrf
                 <button class="flex justify-cent text-lger items-center">
@@ -106,5 +113,5 @@
                 icon.classList.remove('fa-xmark')
                 buttonToggle.classList.remove('ms-[17rem]')
             }
-        }
+        }
 </script>

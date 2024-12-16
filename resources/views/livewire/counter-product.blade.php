@@ -1,4 +1,11 @@
 <div>
+
+        <!-- Notifikasi Flash -->
+        @if (session()->has('message'))
+        <div class="bg-green-500 text-white text-center py-2 px-4 rounded-lg shadow-md my-3">
+            {{ session('message') }}
+        </div>
+    @endif
     <div class="flex gap-4 my-3">
         <p class="text-lg font-semibold">
             Total :

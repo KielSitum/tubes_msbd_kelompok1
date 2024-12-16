@@ -221,9 +221,7 @@
 
             <button class="btn" type="submit">Masuk</button>
 
-            <!-- Auth Google -->
-            <a href="{{ route('auth.goole') }}" class="google-btn" type="submit"><img src="{{ asset('img/Google.png/') }}" alt="Google" style="width: 20px;" >Masuk Dengan Google</a>                  
-
+            
             <p style="margin-top:30px">Belum punya akun? <a href="register" class="register-link" >Daftar disini</a></p>
         </div>
     </form>

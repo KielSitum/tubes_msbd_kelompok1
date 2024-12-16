@@ -16,6 +16,7 @@ use App\Models\DetailProduk;
 use App\Models\Produk;
 use App\Models\Supplier;
 use App\Models\Log;
+use App\Models\PromoDiskon;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -725,6 +726,30 @@ class OwnerController extends Controller
         ]);
     }
 
+    public function promo_diskon()
+    {
+        $promoDiskon = PromoDiskon::all();
+
+        return view('pemilik.promo', compact('promoDiskon'));
+    }
+
+    public function hapus_promo($id_promo)
+    {
+        PromoDiskon::find($id_promo)->delete();
+        return redirect()->back()->with('success', 'Promo berhasil dihapus.');
+    }
+
+    public function tambah_promo(Request $request)
+    {
+        $data = new PromoDiskon;
+        $data->nama_promo = $request->nama_promo;
+        $data->nilai_diskon = $request->nilai_diskon;
+        $data->tanggal_mulai = $request->tanggal_mulai;
+        $data->tanggal_selesai = $request->tanggal_selesai;
+        $data->status = $request->status;
+        $data->save();
+        return redirect()->back();
+    }
 
     public function report(Request $request)
     {

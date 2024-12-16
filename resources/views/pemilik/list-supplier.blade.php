@@ -64,7 +64,6 @@
                     <div class="bg-white p-7 rounded-b-xl">
                         <form action="{{ route('add-supplier') }}" method="post">
                             @csrf
-                            @method('put')
                             <div class="flex gap-6 p-4">
                                 <table>
                                     <tr>

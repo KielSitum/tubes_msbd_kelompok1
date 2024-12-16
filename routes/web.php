@@ -7,6 +7,7 @@ use App\Http\Controllers\printPDFController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\OwnerController;
+use App\Http\Controllers\PromoDiskon;
 use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
@@ -118,7 +119,7 @@ Route::middleware(['auth', 'verified', 'cekRole:owner'])->prefix('owner')->group
     
     Route::get('kasir', [OwnerController::class,'lihatKasir'])->name('list-kasir');
     Route::put('edit-kasir/{id}', [OwnerController::class,'editKasir'])->name('edit-kasir');
-    Route::put('tambah-kasir', [OwnerController::class,'tambahKasir'])->name('tambah-kasir');
+    Route::post('tambah-kasir', [OwnerController::class,'tambahKasir'])->name('tambah-kasir');
     Route::put('delete-kasir', [OwnerController::class,'deleteKasir'])->name('delete-kasir');
     
     Route::get('transaksi-penjualanan', [OwnerController::class,'log_penjualanan'])->name('list-selling-transaction');
@@ -126,7 +127,7 @@ Route::middleware(['auth', 'verified', 'cekRole:owner'])->prefix('owner')->group
     Route::get('transaksi-pembelian', [OwnerController::class,'log_pembelian'])->name('list-buying-transaction');
     
     Route::get('supplier', [OwnerController::class,'display_supplier'])->name('list-supplier');
-    Route::put('tambah-supplier-process', [OwnerController::class, 'add_supplier'])->name('add-supplier');
+    Route::post('add_supplier', [OwnerController::class, 'add_supplier'])->name('add-supplier');
     Route::put('edit-supplier-process/{id}', [OwnerController::class, 'edit_supplier'])->name('edit-supplier');
     Route::put('delete-supplier-process/{id}', [OwnerController::class, 'delete_supplier'])->name('delete-supplier');
     
@@ -141,6 +142,10 @@ Route::middleware(['auth', 'verified', 'cekRole:owner'])->prefix('owner')->group
     Route::get('log', [OwnerController::class, 'display_log']);
     Route::post('report', [OwnerController::class, 'report'])->name('cetak-report');
     Route::get('invoice/{id}', [OwnerController::class, 'display_invoice'])->name('invoice-supplier');
+
+    Route::get('promo', [OwnerController::class, 'promo_diskon']);
+    Route::post('tambah-promo', [OwnerController::class, 'tambah_promo'])->name('tambah-promo');
+    Route::post('hapus-promo/{id_promo}', [OwnerController::class, 'hapus_promo'])->name('hapus-promo');
 
 });
 // akhir halaman owner
