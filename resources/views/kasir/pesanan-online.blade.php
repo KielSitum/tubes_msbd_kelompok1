@@ -139,155 +139,188 @@
                                     type="button" onclick="toggleDetail({{ $index }})">Lihat</button>
                                 </div>
 
-                                {{-- MODAL DETAIL PESANAN ONLINE START --}}
-                                <div class="absolute w-full h-[100%] top-0 left-0 flex justify-center items-center backdrop-brightness-75 z-10 py-8 hidden" id="detailModal{{ $index }}">
-                                    <div class="w-[70%] h-fit max-h-full bg-white rounded-md shadow-md p-8 flex flex-col gap-6 overflow-auto">
-                                        <div class="flex justify-start items-center">
-                                            <button onclick="toggleDetail({{ $index }})" type="button" class="bg-mainColor py-1 px-4 text-white font-semibold rounded-md">
-                                                <i class="fa-solid fa-arrow-left"></i>
-                                                Kembali
-                                            </button>
-                                        </div>
-    
-                                        <div class="px-8 py-2 w-[100%] flex justify-between">
-                                            <div class="w-[70%]">
-                                                <div class="flex flex-col gap-8">
-                                                    <div class="overflow-y-auto h-96">
-                                                        <table class="w-full h-fit max-h-[20px] overflow-scroll">
-                                                            <tr class="border-2 border-b-mainColor border-transparent text-mainColor font-bold w-[100%]">
-                                                                <td class="w-[10%] pb-2 text-center">No</td>
-                                                                <td class="w-[30%] pb-2">Nama</td>
-                                                                <td class="w-[10%] pb-2 text-center">Jumlah</td>
-                                                            </tr>
-                                                            @php $j = 1; @endphp
-                                                            @foreach ($order->invoiceSellingDetail as $detail)              
-                                                            <tr>
-                                                                <td class="py-2 text-center">{{ $j }}</td>
-                                                                <td class="py-2">{{ $detail->product_name }}</td>
-                                                                <td class="py-2 text-center">{{ $detail->quantity }}</td>
-                                                            </tr>
-                                                            @php $j++ @endphp
-                                                            @endforeach
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-    
-                                            <div class="w-[25%] flex flex-col justify-between gap-8">
-                                                <div class="">
-                                                    <p class="text-center font-bold text-mainColor pb-2">Catatan</p>
-                                                    <hr class="border-2 border-transparent border-b-mainColor">
-                                                    <p>{{ $order->recipient_request }}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-    
-                                        <div class="flex justify-between">
-                                            <button onclick="modalTolak({{ $index }})" class="bg-red-600 font-semibold text-xl text-white px-8 py-1 rounded-md">Tolak</button>
-                                            <button onclick="modalRefund({{ $index }})" class="bg-yellow-500 font-semibold text-xl text-white px-8 py-1 rounded-md">Refund</button>
-                                            <button onclick="modalTerima({{ $index }})" class="bg-green-600 font-semibold text-xl text-white px-8 py-1 rounded-md">Terima</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                {{-- MODAL DETAIL PESANAN ONLINE END --}}
-    
-                                {{-- MODAL TOLAK START --}}
-                                <div class="absolute w-full h-[100%] top-0 left-0 flex justify-center items-center backdrop-brightness-50 z-10 hidden" id="modalTolak{{ $index }}">
-                                    <div class="w-[30%] h-fit max-h-full bg-white rounded-md shadow-md p-8 flex flex-col gap-8 overflow-auto items-center text-center">
-                                        <i class="text-red-600 text-6xl fa-solid fa-exclamation"></i>
-                                        
-                                        <div class="text-center flex items-center flex-col gap-2">
-                                            <p class="font-bold text-2xl w-[80%]">Apakah Anda Yakin Ingin <span class="text-mainColor">Menolak</span> Pesanan {{ $order->recipient_name }}?</p>
-                                            
-                                            <p class="text-red-600 font-semibold w-[80%] text-sm">Penolakan Pesanan Hanya Dilakukan Di Kondisi Tertentu</p>
-                                        </div>
-    
-                                        <div class="flex justify-between w-[70%]">
-                                            <button onclick="modalTolak({{ $index }})" type="button" class="bg-green-600 w-[8rem] px-8 py-2 font-semibold text-xl text-white rounded-md">Tidak</button>
-                                            <form action="">
-                                                @csrf
-                                                <button type="button" onclick="modalAlasanTolak({{ $index }})" class="bg-red-600 w-[8rem] px-8 py-2 font-semibold text-xl text-white rounded-md">Ya</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                                {{-- MODAL TOLAK END --}}
-    
-                                {{-- MODAL TERIMA START --}}
-                                <div class="absolute w-full h-[100%] top-0 left-0 flex justify-center items-center backdrop-brightness-50 z-10 hidden" id="modalTerima{{ $index }}">
-                                    <div class="w-[30%] h-fit max-h-full bg-white rounded-md shadow-md p-8 flex flex-col gap-8 overflow-auto items-center text-center">
-                                        <i class="text-green-600 text-6xl fa-solid fa-exclamation"></i>
-                                        
-                                        <div class="text-center flex items-center flex-col gap-2">
-                                            <p class="font-bold text-2xl w-[80%]">Apakah Anda Yakin Ingin <span class="text-mainColor">Menerima</span> Pesanan {{ $order->recipient_name }}?</p>
-                                        </div>
-    
-                                        <div class="flex justify-between w-[70%]">                                            
-                                            <button onclick="modalTerima({{ $index }})" type="button" class="bg-red-600 w-[8rem] px-8 py-2 font-semibold text-xl text-white rounded-md">Tidak</button>
-                                            <form action="{{ route('updateStatus', $order->selling_invoice_id) }}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="status" value="terima">
-                                                <button type="submit" class="bg-green-600 w-[8rem] px-8 py-2 font-semibold text-xl text-white rounded-md">Ya</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                                {{-- MODAL TERIMA END --}}
-    
-                                {{-- MODAL REFUND START --}}
-                                <div class="absolute w-full h-[100%] top-0 left-0 flex justify-center items-center backdrop-brightness-50 z-10 hidden" id="modalRefund{{ $index }}">
-                                    <div class="w-[30%] h-fit max-h-full bg-white rounded-md shadow-md p-8 flex flex-col gap-8 overflow-auto items-center text-center">
-                                        <i class="text-yellow-600 text-6xl fa-solid fa-exclamation"></i>
-                                        
-                                        <div class="text-center flex items-center flex-col gap-2">
-                                            <p class="font-bold text-2xl w-[80%]">Apakah Anda Yakin Ingin <span class="text-mainColor">Mengembalikan</span> Pesanan {{ $order->recipient_name }}?</p>
-                                        </div>
-    
-                                        <div class="flex justify-between w-[70%]">
-                                            <button onclick="modalRefund({{ $index }})" type="button" class="bg-green-600 w-[8rem] px-8 py-2 font-semibold text-xl text-white rounded-md">Tidak</button>
-                                            <form action="">
-                                                @csrf
-                                                <button type="button" onclick="modalAlasanRefund({{ $index }})" class="bg-red-600 w-[8rem] px-8 py-2 font-semibold text-xl text-white rounded-md">Ya</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                                {{-- MODAL REFUND END --}}
-    
-    
-                                {{-- MODAL ALASAN TOLAK START --}}
-                                <div class="absolute w-full h-[100%] top-0 left-0 flex justify-center items-center backdrop-brightness-50 z-20 hidden" id="alasanTolak{{ $index }}">
-                                    <div class="w-[30%] h-fit max-h-full bg-white rounded-md shadow-md p-8 flex flex-col gap-8 overflow-auto items-center text-center">
-                                        <p class="text-3xl font-bold text-mainColor">Input Alasan Tolak Pesanan</p>
-                                        <form action="{{ route('updateStatus', $order->selling_invoice_id) }}" method="post" class="w-[100%] flex items-center flex-col gap-4">
-                                            @csrf
-                                            <input type="hidden" name="status" value="tolak">
-                                            <textarea name="alasanTolak" id="alasanTolak" rows="10" class="border-2 border-mediumGrey border-opacity-50 rounded-md p-4 w-full"></textarea>
-                                            <div class="flex justify-between w-[70%]">
-                                                <button onclick="modalAlasanTolak({{ $index }})" type="button" class="bg-red-600 w-[8rem] px-8 py-2 font-semibold text-xl text-white rounded-md">Batal</button>
-                                                <button type="submit" class="bg-green-600 w-[8rem] px-8 py-2 font-semibold text-xl text-white rounded-md">Kirim</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                {{-- MODAL ALASAN TOLAK END --}}
+                                 {{-- MODAL DETAIL PESANAN ONLINE START --}}
+<div class="fixed inset-0 flex justify-center items-center backdrop-blur-md z-10 hidden" id="detailModal{{ $index }}" style="margin-left:180px;">
+    <div class="w-[90%] md:w-[75%] lg:w-[60%] h-fit max-h-full bg-gradient-to-t from-indigo-900 to-indigo-800 rounded-3xl shadow-2xl p-8 flex flex-col gap-6 overflow-auto">
+        <div class="flex justify-between items-center mb-6">
+            <button onclick="toggleDetail({{ $index }})" type="button" class="bg-indigo-600 hover:bg-indigo-500 py-2 px-6 text-white font-semibold rounded-full shadow-xl transition-all duration-300 hover:scale-105 transform">
+                <i class="fa-solid fa-arrow-left"></i> Kembali
+            </button>
+            <p class="font-bold text-2xl text-white">{{ $order->invoice_code }}</p>
+            <div class="flex gap-2 items-center">
+                {{-- Status Indicator --}}
+                @if ($order->order_status == 'Berhasil' || $order->order_status == 'Offline')
+                    <i class="text-green-400 fa-solid fa-circle"></i>
+                @elseif ($order->order_status == 'Refund')
+                    <i class="text-yellow-400 fa-solid fa-circle"></i>
+                @elseif ($order->order_status == 'Gagal')
+                    <i class="text-red-400 fa-solid fa-circle"></i>
+                @endif
+                <p class="font-bold text-lg text-white">{{ $order->order_status }}</p>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="w-full bg-white rounded-2xl shadow-lg p-6 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-gray-900">
+                        <thead>
+                            <tr class="border-b-2 border-indigo-600 text-indigo-600">
+                                <th class="py-2 text-center font-semibold">No</th>
+                                <th class="py-2 text-left font-semibold">Nama</th>
+                                <th class="py-2 text-center font-semibold">Jumlah</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php $j = 1; @endphp
+                            @foreach ($order->invoiceSellingDetail as $detail)
+                            <tr class="border-b border-gray-200">
+                                <td class="py-2 text-center">{{ $j }}</td>
+                                <td class="py-2">{{ $detail->product_name }}</td>
+                                <td class="py-2 text-center">{{ $detail->quantity }}</td>
+                            </tr>
+                            @php $j++ @endphp
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-                                {{-- MODAL ALASAN REFUND START --}}
-                                <div class="absolute w-full h-[100%] top-0 left-0 flex justify-center items-center backdrop-brightness-50 z-20 hidden" id="alasanRefund{{ $index }}">
-                                    <div class="w-[30%] h-fit max-h-full bg-white rounded-md shadow-md p-8 flex flex-col gap-8 overflow-auto items-center text-center">
-                                        <p class="text-3xl font-bold text-mainColor">Input Alasan Refund Pesanan</p>
-                                        <form action="{{ route('updateStatus', $order->selling_invoice_id) }}" method="post" class="w-[100%] flex items-center flex-col gap-4">
-                                            @csrf
-                                            <input type="hidden" name="status" value="refund">
-                                            <textarea name="alasanRefund" id="alasanRefund" rows="10" class="border-2 border-mediumGrey border-opacity-50 rounded-md p-4 w-full"></textarea>
-                                            <div class="flex justify-between w-[70%]">
-                                                <button onclick="modalAlasanRefund({{ $index }})" type="button" class="bg-red-600 w-[8rem] px-8 py-2 font-semibold text-xl text-white rounded-md">Batal</button>
-                                                <button type="submit" class="bg-green-600 w-[8rem] px-8 py-2 font-semibold text-xl text-white rounded-md">Kirim</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                {{-- MODAL ALASAN REFUND END --}}
+            <div class="w-full bg-gradient-to-b from-indigo-600 to-indigo-700 text-white rounded-2xl shadow-lg p-6">
+                <p class="text-center font-bold text-2xl pb-4">Keterangan</p>
+                <hr class="border-2 border-transparent border-b-mainColor mb-4">
+                <div class="space-y-3">
+                    <div>
+                        <p class="font-semibold">Pelanggan:</p>
+                        <p>{{ $order->recipient_name }}</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold">Nomor HP:</p>
+                        <p>{{ $order->recipient_phone }}</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold">Tanggal Selesai:</p>
+                        <p>{{ date('d M Y', strtotime($order->order_complete)) }}</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold">Metode Pembayaran:</p>
+                        <p>{{ $order->recipient_bank }}</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold">Bukti Pembayaran:</p>
+                        <a href="/cashier/informasi_pembayaran/{{ $order->recipient_payment }}" target="_blank" class="text-indigo-200 underline">{{ $order->recipient_payment }}</a>
+                    </div>
+                    <div>
+                        <p class="font-semibold">Catatan:</p>
+                        <p>{{ $order->recipient_request }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-between mt-6">
+            <button onclick="modalTolak({{ $index }})" class="bg-blue-600 text-white px-20 py-2 rounded-md font-semibold">Tolak</button>
+            <button onclick="modalRefund({{ $index }})" class="bg-blue-500 text-white px-20 py-2 rounded-md font-semibold">Refund</button>
+            <button onclick="modalTerima({{ $index }})" class="bg-blue-600 text-white px-20 py-2 rounded-md font-semibold">Terima</button>
+        </div>
+    </div>
+</div>
+{{-- MODAL DETAIL PESANAN ONLINE END --}}
+
+{{-- MODAL TOLAK START --}}
+<div class="absolute w-full h-[100%] top-0 left-0 flex justify-center items-center backdrop-brightness-50 z-10 hidden" id="modalTolak{{ $index }}" style="margin-left: 0px; margin-top:0px;">
+    <div class="w-[40%] h-fit max-h-full bg-white rounded-md shadow-md p-8 flex flex-col gap-8 overflow-auto items-center text-center">
+        <i class="text-red-600 text-6xl fa-solid fa-exclamation"></i>
+        
+        <div class="text-center flex items-center flex-col gap-2">
+            <p class="font-bold text-2xl w-[80%]">Apakah Anda Yakin Ing in <span class="text-mainColor">Menolak</span> Pesanan {{ $order->recipient_name }}?</p>
+            
+            <p class="text-red-600 font-semibold w-[80%] text-sm">Penolakan Pesanan Hanya Dilakukan Di Kondisi Tertentu</p>
+        </div>
+
+        <div class="flex justify-between w-[70%]">
+            <button onclick="modalTolak({{ $index }})" type="button" class="bg-green-600 w-[8rem] px-8 py-2 font-semibold text-xl text-white rounded-md" style="margin-right:20px;">Tidak</button>
+            <form action="">
+                @csrf
+                <button type="button" onclick="modalAlasanTolak({{ $index }})" class="bg-red-600 w-[8rem] px-8 py-2 font-semibold text-xl text-white rounded-md">Ya</button>
+            </form>
+        </div>
+    </div>
+</div>
+{{-- MODAL TOLAK END --}}
+
+{{-- MODAL TERIMA START --}}
+<div class="absolute w-full h-[100%] top-0 left-0 flex justify-center items-center backdrop-brightness-50 z-10 hidden" id="modalTerima{{ $index }}" style="">
+    <div class="w-[40%] h-fit max-h-full bg-white rounded-md shadow-md p-8 flex flex-col gap-8 overflow-auto items-center text-center">
+        <i class="text-green-600 text-6xl fa-solid fa-exclamation"></i>
+        
+        <div class="text-center flex items-center flex-col gap-2">
+            <p class="font-bold text-2xl w-[80%]">Apakah Anda Yakin Ingin <span class="text-mainColor">Menerima</span> Pesanan {{ $order->recipient_name }}?</p>
+        </div>
+
+        <div class="flex justify-between w-[70%]">                                            
+            <button onclick="modalTerima({{ $index }})" type="button" class="bg-red-600 w-[8rem] px-8 py-2 font-semibold text-xl text-white rounded-md" style="margin-right:20px;">Tidak</button>
+            <form action="{{ route('updateStatus', $order->selling_invoice_id) }}" method="post">
+                @csrf
+                <input type="hidden" name="status" value="terima">
+                <button type="submit" class="bg-green-600 w-[8rem] px-8 py-2 font-semibold text-xl text-white rounded-md">Ya</button>
+            </form>
+        </div>
+    </div>
+</div>
+{{-- MODAL TERIMA END --}}
+
+{{-- MODAL REFUND START --}}
+<div class="absolute w-full h-[100%] top-0 left-0 flex justify-center items-center backdrop-brightness-50 z-10 hidden" id="modalRefund{{ $index }}" style="">
+    <div class="w-[40%] h-fit max-h-full bg-white rounded-md shadow-md p-8 flex flex-col gap-8 overflow-auto items-center text-center">
+        <i class="text-yellow-600 text-6xl fa-solid fa-exclamation"></i>
+        
+        <div class="text-center flex items-center flex-col gap-2">
+            <p class="font-bold text-2xl w-[80%]">Apakah Anda Yakin Ingin <span class="text-mainColor">Mengembalikan</span> Pesanan {{ $order->recipient_name }}?</p>
+        </div>
+
+        <div class="flex justify-between w-[70%]">
+            <button onclick="modalRefund({{ $index }})" type="button" class="bg-green-600 w-[8rem] px-8 py-2 font-semibold text-xl text-white rounded-md" style="margin-right:20px;">Tidak</button>
+            <form action="">
+                @csrf
+                <button type="button" onclick="modalAlasanRefund({{ $index }})" class="bg-yellow-600 w-[8rem] px-8 py-2 font-semibold text-xl text-white rounded-md">Ya</button>
+            </form>
+        </div>
+    </div>
+</div>
+{{-- MODAL REFUND END --}}
+{{-- MODAL ALASAN TOLAK START --}}
+<div class="absolute w-full h-[100%] top-0 left-0 flex justify-center items-center backdrop-brightness-50 z-20 hidden" id="alasanTolak{{ $index }}" >
+    <div class="w-[30%] h-fit max-h-full bg-white rounded-md shadow-md p-8 flex flex-col gap-8 overflow-auto items-center text-center">
+        <p class="text-3xl font-bold text-mainColor">Input Alasan Tolak Pesanan</p>
+        <form action="{{ route('updateStatus', $order->selling_invoice_id) }}" method="post" class="w-[100%] flex items-center flex-col gap-4">
+            @csrf
+            <input type="hidden" name="status" value="tolak">
+            <textarea name="alasanTolak" id="alasanTolak" rows="10" class="border-2 border-mediumGrey border-opacity-50 rounded-md p-4 w-full"></textarea>
+            <div class="flex justify-between w-[70%]">
+                <button onclick="modalAlasanTolak({{ $index }})" type="button" class="bg-red-600 w-[8rem] px-8 py-2 font-semibold text-xl text-white rounded-md" style="margin-left:-40px;">Batal</button>
+                <button type="submit" class="bg-green-600 w-[8rem] px-8 py-2 font-semibold text-xl text-white rounded-md" style="margin-left:40px;">Kirim</button>
+            </div>
+        </form>
+    </div>
+</div>
+{{-- MODAL ALASAN TOLAK END --}}
+
+{{-- MODAL ALASAN REFUND START --}}
+<div class="absolute w-full h-[100%] top-0 left-0 flex justify-center items-center backdrop-brightness-50 z-20 hidden" id="alasanRefund{{ $index }}" >
+    <div class="w-[30%] h-fit max-h-full bg-white rounded-md shadow-md p-8 flex flex-col gap-8 overflow-auto items-center text-center">
+        <p class="text-3xl font-bold text-mainColor">Input Alasan Refund Pesanan</p>
+        <form action="{{ route('updateStatus', $order->selling_invoice_id) }}" method="post" class="w-[100%] flex items-center flex-col gap-4">
+            @csrf
+            <input type="hidden" name="status" value="refund">
+            <textarea name="alasanRefund" id="alasanRefund" rows="10" class="border-2 border-mediumGrey border-opacity-50 rounded-md p-4 w-full"></textarea>
+            <div class="flex justify-between w-[70%]">
+                <button onclick="modalAlasanRefund({{ $index }})" type="button" class="bg-red-600 w-[8rem] px-8 py-2 font-semibold text-xl text-white rounded-md" style="margin-left:-40px;">Batal</button>
+                <button type="submit" class="bg-green-600 w-[8rem] px-8 py-2 font-semibold text-xl text-white rounded-md" style="margin-left:40px;">Kirim</button>
+            </div>
+        </form>
+    </div>
+</div>
+{{-- MODAL ALASAN REFUND END --}}
+
                             </td>
                         </tr>
                         @php $i++ @endphp

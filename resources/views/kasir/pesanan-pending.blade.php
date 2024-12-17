@@ -98,70 +98,89 @@
                                 </div>
 
                                 {{-- MODAL DETAIL PESANAN PENDING START --}}
-                                <div class="absolute w-full h-screen top-0 left-0 flex justify-center items-center backdrop-brightness-75 z-10 hidden" id="detailModal{{ $index }}">
-                                    <div class="w-[70%] h-fit max-h-full bg-white rounded-md shadow-md p-8 flex flex-col gap-6 overflow-auto">
-                                        <div class="">
-                                            <button onclick="toggleDetail({{ $index }})" type="button" class="bg-mainColor py-1 px-4 text-white font-semibold rounded-md">
-                                                <i class="fa-solid fa-arrow-left"></i>
-                                                Kembali
-                                            </button>
-                                        </div>
-    
-                                        <div class="px-8 py-2 w-[100%] flex justify-between">
-                                            <div class="overflow-y-auto h-72 w-[70%]">
-                                                <table class="w-full h-fit overflow-scroll">
-                                                    <tr class="border-2 border-b-mainColor border-transparent text-mainColor font-bold w-[100%]">
-                                                        <td class="w-[10%] pb-2 text-center">No</td>
-                                                        <td class="w-[50%] pb-2">Nama</td>
-                                                        <td class="w-[20%] pb-2 text-center">Jumlah</td>
-                                                        <td class="w-[20%] pb-2">Resep Dokter</td>
-                                                    </tr>
-                                                    @php $j = 1; @endphp
-                                                    @foreach($pendingOrder->invoiceSellingDetail as $detail)
-                                                    <tr>
-                                                        <td class="py-2 text-center">{{ $j }}</td>
-                                                        <td class="py-2">{{ $detail->product_name }}</td>
-                                                        <td class="py-2 text-center">{{ $detail->quantity }}</td>
-                                                    </tr>
-                                                    @php $j++ @endphp
-                                                    @endforeach
-                                                </table>
-                                            </div>
-    
-                                            <div class="w-[25%]">
-                                                <table class="w-full">
-                                                    <tr class="border-2 border-b-mainColor border-transparent text-mainColor font-bold w-[100%]">
-                                                        <td class="pb-2">File Resep Dokter</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="py-2 flex gap-2 items-center">
-                                                            <i class="fa-solid fa-image"></i>
-                                                            <a href="/cashier/resep_dokter/{{ $pendingOrder->recipient_file }}" target="_blank">{{ $pendingOrder->recipient_file }}</a>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-    
-                                        <div class="px-8 w-[100%]">
-                                            <p class="text-mainColor font-bold py-2 border-2 border-b-mainColor border-transparent">Catatan</p>
-                                            <p class="py-4">{{ $pendingOrder->recipient_request }}</p>
-                                        </div>
-    
-                                        <div class="flex justify-end w-full">
-                                            @if($now->gt($deadline))
-                                                <form action="{{ route('failOrder', $pendingOrder->selling_invoice_id) }}" method="get">
-                                                    <button class="bg-red-600 text-white font-bold py-2 px-4 rounded-md shadow-md">Tandai Gagal</button>
-                                                </form>
-                                            @else
-                                                <form action="{{ route('successOrder', $pendingOrder->selling_invoice_id) }}" method="get">
-                                                    <button class="bg-green-600 text-white font-bold py-2 px-4 rounded-md shadow-md">Tandai Selesai</button>
-                                                </form>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                                {{-- MODAL DETAIL PESANAN PENDING END --}}
+<div class="absolute  top-0 left-0 flex justify-center items-center  z-10 hidden" id="detailModal{{ $index }}" style="margin-left:550px; margin-top:150px;" >
+    <div class="w-[100%] md:w-[100%] lg:w-[100%] h-fit max-h-full bg-gradient-to-t from-indigo-900 to-indigo-800 rounded-3xl shadow-2xl p-8 flex flex-col gap-6 overflow-auto">
+        
+        <!-- Kembali Button -->
+        <div class="mb-6 flex justify-between items-center">
+            <button onclick="toggleDetail({{ $index }})" type="button" class="bg-indigo-600 hover:bg-indigo-500 py-2 px-6 text-white font-semibold rounded-full shadow-xl transition-all duration-300 hover:scale-105 transform">
+                <i class="fa-solid fa-arrow-left"></i> Kembali
+            </button>
+            <p class="font-bold text-2xl text-white">{{ $pendingOrder->invoice_code }}</p>
+            <div class="flex gap-2 items-center">
+                {{-- Status Indicator --}}
+                @if ($pendingOrder->order_status == 'Pending')
+                    <i class="text-yellow-400 fa-solid fa-circle"></i>
+                @endif
+                <p class="font-bold text-lg text-white">{{ $pendingOrder->order_status }}</p>
+            </div>
+        </div>
+
+        <!-- Tabel Produk -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="w-full bg-white rounded-2xl shadow-lg p-6 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-gray-900">
+                        <thead>
+                            <tr class="border-b-2 border-indigo-600 text-indigo-600">
+                                <th class="py-2 text-center font-semibold">No</th>
+                                <th class="py-2 text-left font-semibold">Nama</th>
+                                <th class="py-2 text-center font-semibold">Jumlah</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php $j = 1; @endphp
+                            @foreach($pendingOrder->invoiceSellingDetail as $detail)
+                            <tr class="border-b border-gray-200">
+                                <td class="py-2 text-center">{{ $j }}</td>
+                                <td class="py-2">{{ $detail->product_name }}</td>
+                                <td class="py-2 text-center">{{ $detail->quantity }}</td>
+                                
+                            </tr>
+                            @php $j++ @endphp
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Keterangan & Catatan -->
+            <div class="w-full bg-gradient-to-b from-indigo-600 to-indigo-700 text-white rounded-2xl shadow-lg p-6">
+                <p class="text-center font-bold text-2xl pb-4">Keterangan</p>
+                <hr class="border-2 border-transparent border-b-mainColor mb-4">
+                <div class="space-y-3">
+                    <div>
+                        <p class="font-semibold">Pelanggan:</p>
+                        <p>{{ $pendingOrder->recipient_name }}</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold">Nomor HP:</p>
+                        <p>{{ $pendingOrder->recipient_phone }}</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold">Catatan:</p>
+                        <p>{{ $pendingOrder->recipient_request }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tombol Aksi: Tandai Selesai / Tandai Gagal -->
+        <div class="flex justify-end mt-6">
+            @if($now->gt($deadline))
+                <form action="{{ route('failOrder', $pendingOrder->selling_invoice_id) }}" method="get">
+                    <button class="bg-red-600 text-white font-bold py-2 px-6 rounded-md shadow-md">Tandai Gagal</button>
+                </form>
+            @else
+                <form action="{{ route('successOrder', $pendingOrder->selling_invoice_id) }}" method="get">
+                    <button class="bg-green-600 text-white font-bold py-2 px-6 rounded-md shadow-md">Tandai Selesai</button>
+                </form>
+            @endif
+        </div>
+    </div>
+</div>
+{{-- MODAL DETAIL PESANAN PENDING END --}}
+
                             </td>
                         </tr>
                         @php  $i++   @endphp

@@ -89,103 +89,106 @@
                                 </div>
                              @php $i++; @endphp
 
-                                {{-- MODAL DETAIL RIWAYAT TRANSAKSI START --}}
-                                <div class="fixed w-full h-screen top-0 left-0 flex justify-center items-center backdrop-brightness-75 z-10 hidden" id="detailModal{{ $index }}">                                    
-                                    <div class="w-[70%] h-fit max-h-full bg-white rounded-md shadow-md p-8 flex flex-col gap-6 overflow-auto">
-                                        <div class="flex justify-between items-center">
-                                            <button onclick="toggleDetail({{ $index }})" type="button" class="bg-mainColor py-1 px-4 text-white font-semibold rounded-md">
-                                                <i class="fa-solid fa-arrow-left"></i>
-                                                Kembali
-                                            </button>
-    
-                                            <p class="font-bold">{{ $history->invoice_code }}</p>
-    
-                                            <div class="flex gap-2 items-center">
-                                                {{-- GREEN = BERHASIL, YELLOW = REFUND, RED = GAGAL --}}
-                                                @if ( $history->order_status == 'Berhasil' || $history->order_status == 'Offline')
-                                                <i class="text-green-600 fa-solid fa-circle"></i>
-                                                @elseif ($history->order_status == 'Refund')
-                                                    <i class="text-yellow-600 fa-solid fa-circle"></i>
-                                                @elseif ($history->order_status == 'Gagal')
-                                                    <i class="text-red-600 fa-solid fa-circle"></i>
-                                                @endif
-                                                <p class="font-bold">{{ $history->order_status }}</p>
-                                            </div>
+                               {{-- MODAL DETAIL RIWAYAT TRANSAKSI START --}}
+                               <div class="fixed inset-0 flex justify-center items-center backdrop-blur-md z-10 hidden" id="detailModal{{ $index }}" style="margin-left:180px;">
+                                <div class="w-[90%] md:w-[75%] lg:w-[60%] h-fit max-h-full bg-gradient-to-t from-indigo-900 to-indigo-800 rounded-3xl shadow-2xl p-8 flex flex-col gap-6 overflow-auto">
+                                    <div class="flex justify-between items-center mb-6">
+                                        <button onclick="toggleDetail({{ $index }})" type="button" class="bg-indigo-600 hover:bg-indigo-500 py-2 px-6 text-white font-semibold rounded-full shadow-xl transition-all duration-300 hover:scale-105 transform">
+                                            <i class="fa-solid fa-arrow-left"></i> Kembali
+                                        </button>
+                                        <p class="font-bold text-2xl text-white">{{ $history->invoice_code }}</p>
+                                        <div class="flex gap-2 items-center">
+                                            {{-- Status Indicator --}}
+                                            @if ($history->order_status == 'Berhasil' || $history->order_status == 'Offline')
+                                                <i class="text-green-400 fa-solid fa-circle"></i>
+                                            @elseif ($history->order_status == 'Refund')
+                                                <i class="text-yellow-400 fa-solid fa-circle"></i>
+                                            @elseif ($history->order_status == 'Gagal')
+                                                <i class="text-red-400 fa-solid fa-circle"></i>
+                                            @endif
+                                            <p class="font-bold text-lg text-white">{{ $history->order_status }}</p>
                                         </div>
-                                        <div class="px-8 py-2 w-[100%] flex justify-between">
-                                            <div class="w-[70%]">
-                                                <div class="flex flex-col gap-8">
-                                                    <table class="w-full">
-                                                        <tr class="border-2 border-b-mainColor border-transparent text-mainColor font-bold w-[100%]">
-                                                            <td class="w-[10%] pb-2 text-center">No</td>
-                                                            <td class="w-[30%] pb-2">Nama</td>
-                                                            <td class="w-[10%] pb-2 text-center">Jumlah</td>
-                                                            <td class="w-[25%] pb-2 text-center">Harga</td>
-                                                            <td class="w-[25%] pb-2">Total</td>
+                                    </div>
+                                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                                        <div class="w-full bg-white rounded-2xl shadow-lg p-6 overflow-hidden">
+                                            <div class="overflow-x-auto">
+                                                <table class="w-full text-sm text-gray-900">
+                                                    <thead>
+                                                        <tr class="border-b-2 border-indigo-600 text-indigo-600">
+                                                            <th class="py-2 text-center font-semibold">No</th>
+                                                            <th class="py-2 text-left font-semibold">Nama</th>
+                                                            <th class="py-2 text-center font-semibold">Jumlah</th>
+                                                            <th class="py-2 text-center font-semibold">Harga</th>
+                                                            <th class="py-2 text-left font-semibold">Total</th>
                                                         </tr>
-                                                            @php $j = 1; @endphp
+                                                    </thead>
+                                                    <tbody>
+                                                        @php $j = 1; @endphp
                                                         @foreach($history->invoiceSellingDetail as $invoice)
-                                                        <tr>
+                                                        <tr class="border-b border-gray-200">
                                                             <td class="py-2 text-center">{{ $j }}</td>
                                                             <td class="py-2">{{ $invoice->product_name }}</td>
                                                             <td class="py-2 text-center">{{ $invoice->quantity }}</td>
                                                             <td class="py-2 text-center">Rp {{ number_format($invoice->product_sell_price, 0, ',', '.') }}</td>
-                                                            <td class="py-2">Rp {{ number_format($invoice->quantity * $invoice->product_sell_price, 0, ',', '.')}}</td>
+                                                            <td class="py-2">Rp {{ number_format($invoice->quantity * $invoice->product_sell_price, 0, ',', '.') }}</td>
                                                         </tr>
-                                                            @php $j++ @endphp
+                                                        @php $j++ @endphp
                                                         @endforeach
-                                                    </table>
-                                                </div>
-    
-                                                <div class="flex flex-col gap-2 py-2">
-                                                    <hr class="border-2 border-transparent border-b-mainColor">
-                                                    <div class="flex font-bold gap-2">
-                                                        <p class="w-28">Total Harga</p>
-                                                        <p>:</p>
-                                                        <p class="text-secondaryColor">
-                                                            Rp {{ number_format($totalPrice, 0, ',', '.') }}
-                                                        </p>
-                                                    </div>
-                                                    <div class="flex font-bold gap-2">
-                                                        <p class="w-28">Kasir</p>
-                                                        <p>:</p>
-                                                        <p class="text-mainColor">{{ $history->cashier_name }}</p>
-                                                    </div>
-                                                    {{-- ALASAN GAGAL KALAU ADA --}}
-                                                    @if($history->order_status == 'Gagal')
-                                                        <div class="flex font-bold gap-2">
-                                                            <p class="w-28">Alasan Gagal</p>                                
-                                                            <p>:</p>
-                                                            <p class="text-mainColor">{{ $history->reject_comment }}</p>
-                                                        </div>
-                                                    @else 
-                                                        <div></div>
-                                                    @endif
-                                                </div>
+                                                    </tbody>
+                                                </table>
                                             </div>
-    
-                                            <div class="w-[25%]">
-                                                <p class="text-center font-bold text-mainColor pb-2">Keterangan</p>
-                                                <hr class="border-2 border-transparent border-b-mainColor">
-                                                <div class="py-2">
-                                                    <p class="font-bold">Pelanggan :</p>
+                                            <div class="mt-4">
+                                                <hr class="border-t-2 border-indigo-500 mb-4">
+                                                <div class="flex justify-between font-semibold text-indigo-600">
+                                                    <span>Total Harga</span>
+                                                    <span class="text-indigo-500">Rp {{ number_format($totalPrice, 0, ',', '.') }}</span>
+                                                </div>
+                                                <div class="flex justify-between font-semibold text-indigo-600">
+                                                    <span>Kasir</span>
+                                                    <span class="text-indigo-500">{{ $history->cashier_name }}</span>
+                                                </div>
+                                                @if($history->order_status == 'Gagal')
+                                                <div class="flex justify-between font-semibold text-indigo-600 mt-4">
+                                                    <span>Alasan Gagal</span>
+                                                    <span class="text-indigo-500">{{ $history->reject_comment }}</span>
+                                                </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="w-full bg-gradient-to-b from-indigo-600 to-indigo-700 text-white rounded-2xl shadow-lg p-6">
+                                            <p class="text-center font-bold text-2xl pb-4">Keterangan</p>
+                                            <hr class="border-2 border-transparent border-b-mainColor mb-4">
+                                            <div class="space-y-3">
+                                                <div>
+                                                    <p class="font-semibold">Pelanggan:</p>
                                                     <p>{{ $history->recipient_name }}</p>
-                                                    <p class="font-bold">Nomor HP :</p>
+                                                </div>
+                                                <div>
+                                                    <p class="font-semibold">Nomor HP:</p>
                                                     <p>{{ $history->recipient_phone }}</p>
-                                                    <p class="font-bold">Tanggal Selesai :</p>
-                                                    <p>{{ date('d M Y',strtotime($history->order_complete)) }}</p>
-                                                    <p class="font-bold">Metode Pembayaran :</p>
+                                                </div>
+                                                <div>
+                                                    <p class="font-semibold">Tanggal Selesai:</p>
+                                                    <p>{{ date('d M Y', strtotime($history->order_complete)) }}</p>
+                                                </div>
+                                                <div>
+                                                    <p class="font-semibold">Metode Pembayaran:</p>
                                                     <p>{{ $history->recipient_bank }}</p>
-                                                    <p class="font-bold">Bukti Pembayaran :</p>
-                                                    <a href="/cashier/informasi_pembayaran/{{ $history->recipient_payment }}" target="_blank" class="text-blue-600 underline">{{ $history->recipient_payment }}</a>
-                                                    <p class="font-bold">Catatan :</p>
+                                                </div>
+                                                <div>
+                                                    <p class="font-semibold">Bukti Pembayaran:</p>
+                                                    <a href="/cashier/informasi_pembayaran/{{ $history->recipient_payment }}" target="_blank" class="text-indigo-200 underline">{{ $history->recipient_payment }}</a>
+                                                </div>
+                                                <div>
+                                                    <p class="font-semibold">Catatan:</p>
                                                     <p>{{ $history->recipient_request }}</p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                {{-- MODAL DETAIL RIWAYAT TRANSAKSI END --}}
+                            </div>
+                            {{-- MODAL DETAIL RIWAYAT TRANSAKSI END --}}
                             </td>
                         </tr>
                         @php $index++ @endphp
