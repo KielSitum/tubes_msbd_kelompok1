@@ -24,6 +24,7 @@ return new class extends Migration
             // $table->integer('product_stock');
             // $table->integer('product_buy_price');
             $table->integer('product_sell_price');
+            $table->integer('discounted_price')->nullable(); // Harga setelah diskon
             $table->enum('product_status', ['aktif', 'tidak aktif', 'exp']);
             $table->timestamps();
         });

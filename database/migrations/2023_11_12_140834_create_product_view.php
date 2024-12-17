@@ -7,9 +7,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         $sql = "CREATE OR REPLACE VIEW product_view AS
@@ -30,23 +27,27 @@ return new class extends Migration
             b.product_indication,
             b.product_notice,
             (
-        		SELECT g_sub.product_expired
-        		FROM detail_produk g_sub
+                SELECT g_sub.product_expired
+                FROM detail_produk g_sub
                 WHERE g_sub.product_stock > 0
-				AND g_sub.product_id = a.product_id
-        		ORDER BY g_sub.product_expired
-        		LIMIT 1
-    		) AS product_expired,
-            SUM(g.product_stock) AS product_stock,
-            (
-        		SELECT g_sub.product_buy_price
-        		FROM detail_produk g_sub
-        		WHERE g_sub.product_stock > 0
                 AND g_sub.product_id = a.product_id
                 ORDER BY g_sub.product_expired
-        		LIMIT 1
-    		) AS product_buy_price,
-			a.product_sell_price
+                LIMIT 1
+            ) AS product_expired,
+            SUM(g.product_stock) AS product_stock,
+            (
+                SELECT g_sub.product_buy_price
+                FROM detail_produk g_sub
+                WHERE g_sub.product_stock > 0
+                AND g_sub.product_id = a.product_id
+                ORDER BY g_sub.product_expired
+                LIMIT 1
+            ) AS product_buy_price,
+            CASE
+                WHEN h.status = 'aktif'
+                THEN a.product_sell_price - (a.product_sell_price * (h.nilai_diskon / 100))
+                ELSE a.product_sell_price
+            END AS product_sell_price
         FROM
             produk a
         JOIN
@@ -60,9 +61,11 @@ return new class extends Migration
         JOIN
             suppliers f ON b.supplier_id = f.supplier_id
         JOIN
-        	detail_produk g ON a.product_id = g.product_id
-		GROUP BY
-			a.product_id,
+            detail_produk g ON a.product_id = g.product_id
+        LEFT JOIN
+            promo_diskon h ON h.status = 'aktif'
+        GROUP BY
+            a.product_id,
             a.product_name,
             a.product_status,
             c.category,
@@ -76,17 +79,18 @@ return new class extends Migration
             b.product_description,
             b.product_dosage,
             b.product_indication,
-            b.product_notice";
+            b.product_notice,
+            a.product_sell_price,
+            h.nilai_diskon,
+            h.status";
 
         DB::statement($sql);
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         $sql = "DROP VIEW product_view";
         DB::statement($sql);
     }
 };
+

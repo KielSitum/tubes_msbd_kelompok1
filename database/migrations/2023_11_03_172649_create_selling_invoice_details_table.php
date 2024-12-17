@@ -21,6 +21,7 @@ return new class extends Migration
                 ->onDelete('restrict');
             $table->string('product_name');
             $table->integer('product_sell_price');
+            $table->integer('discounted_price')->nullable();
             $table->integer('quantity');
         });
     }

@@ -74,11 +74,14 @@
                                     $totalBelanja = 0;
                                     $product = $product_purcase->invoiceSellingDetail;
                                     foreach ($product as $p) {
-                                        $totalBelanja += $p->product_sell_price * $p->quantity;
+                                        $hargaYangDitampilkan = $p->discounted_price ?? $p->product_sell_price;
+
+                                        $totalBelanja += $hargaYangDitampilkan * $p->quantity;
                                     }
                                 @endphp
                                 <td class="px-4 py-3">Rp {{ number_format($totalBelanja, 0, ',', '.') }}</td>
                             </tr>
+                            
                             @endforeach
                         </tbody>
                     </table>

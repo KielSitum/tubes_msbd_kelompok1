@@ -209,7 +209,15 @@
                 <a href="/deskripsi/{{ Str::slug($product->product_name) }}">
                     <img src="{{ file_exists(public_path('storage/gambar-obat/' . $product->description->product_photo)) ? asset('storage/gambar-obat/' . $product->description->product_photo) : asset('img/obat1.jpg') }}" class="product-img" alt="product image">
                     <div class="product-name">{{ Str::limit($product->product_name, 20) }}</div>
-                    <div class="product-price">Rp. {{ number_format($product->product_sell_price, 0, ',', '.') }}</div>
+                    <div class="product-price">
+                        @if ($product->discounted_price)
+                        <span class="text-success">Rp{{ number_format($product->discounted_price, 0, ',', '.') }}</span>
+                        <small class="text-muted" style="text-decoration: line-through;">Rp{{ number_format($product->product_sell_price, 0, ',', '.') }}</small>
+                        @else
+                        Rp{{ number_format($product->product_sell_price, 0, ',', '.') }}
+                    @endif
+                </td>
+                    </div>
                     <div class="product-stock">Stok: {{ $product->detail()->orderBy('product_expired')->first()->product_stock }}</div>
                     <div class="product-description">{{ Str::limit($product->description->product_desc, 120) }}</div>
                     <button class="btn">Lihat Detail</button>
