@@ -57,8 +57,8 @@ class CashierLiveshow extends Component
             ? $filteredProducts->where("product_name", "LIKE", "%" . $this->search . "%")->orderBy('product_status')->paginate(8)
             : Produk::on('cashier')->where("product_name", "LIKE", "%" . $this->search . "%")->orderBy('product_status')->paginate(8))
         : ($filteredProducts
-            ? $filteredProducts->orderBy('product_status')->paginate(8)
-            : Produk::on('cashier')->orderBy('product_status')->paginate(8));
+            ? $filteredProducts->orderBy('product_status')->paginate(9)
+            : Produk::on('cashier')->orderBy('product_status')->paginate(9));
     }
 
     public function applyFilter($filterType, $filterId)

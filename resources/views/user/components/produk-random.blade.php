@@ -31,7 +31,10 @@
         </div>
 
         <div class="text-center mt-6">
-            <a href="/produk" class="text-blue-500 text-lg underline">Lihat Semua Produk</a>
+            <a href="/produk" 
+               class="px-6 py-3 bg-blue-500 text-white text-lg font-medium rounded-lg shadow-md hover:bg-blue-600 hover:shadow-lg transition-all duration-300">
+                Lihat Semua Produk
+            </a>
         </div>
     </div>
 </div>

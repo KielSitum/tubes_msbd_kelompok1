@@ -1,181 +1,172 @@
-    <!DOCTYPE html>
-    <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=\, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Toko Obat Subur Tigarunggu</title>
-        @vite('resources/css/app.css')
-        @livewireStyles
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Toko Obat Subur Tigarunggu</title>
+    @vite('resources/css/app.css')
+    @livewireStyles
 
-        {{-- FONT AWESOME --}}
-        <script src="https://kit.fontawesome.com/e87c4faa10.js" crossorigin="anonymous"></script>
-        <script src="https://kit.fontawesome.com/1fc4ea1c6a.js" crossorigin="anonymous"></script>
+    {{-- FONT AWESOME --}}
+    <script src="https://kit.fontawesome.com/e87c4faa10.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/1fc4ea1c6a.js" crossorigin="anonymous"></script>
 
-        <style>
-            table {
-                border: 3px solid #ccc; /* Border solid di tabel */
-                border-radius: 8px; /* Membuat sudut tumpul */
-            }
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .main-content {
+        flex: 1; /* Mengisi ruang yang tersedia */
+}
+        .cart-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
 
-            th, td {
-                padding: 10px;
-                text-align: left;
-                border-bottom: 2px solid rgba(0, 0, 0, 0.1); /* Border solid dan lebih tipis untuk setiap baris */
-                border-right: 2px solid #ccc; /* Menambahkan garis vertikal di kanan setiap header */
+        .cart-item {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border-radius: 12px;
+            padding: 3rem;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
 
-            }
+        .cart-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
 
-            tr {
-                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-            }
+        .cart-details {
+            flex: 1;
+            margin-left: 1rem;
+        }
 
-            .rounded-md {
-                border-radius: 8px; /* Mengubah border radius di elemen dengan kelas rounded-md */
-            }
+        .cart-details p {
+            margin: 0.2rem 0;
+        }
 
-            .w-full {
-                border-radius: 8px; /* Mengubah border radius di elemen dengan kelas w-full */
-            }
+        .cart-actions {
+            display: flex;
+            align-items: center;
+            gap: 10rem; /* Tambahkan jarak antar elemen */
+        }
 
-        </style>
-    </head>
+        .cart-actions button {
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem 0.75rem;
+            cursor: pointer;
+        }
 
-    <body class="font-Inter">
-        @include('user.components.navbar')
+        .cart-quantity input {
+            width: 50px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 0.25rem;
+        }
+        /* Tombol Lanjut */
+.btn-lanjut {
+    display: inline-block;
+    width: 100%; /* Lebar penuh */
+    max-width: 300px; /* Maksimal lebar tombol */
+    padding: 1rem 2rem; /* Ukuran padding lebih besar */
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(90deg, #4a90e2, #357ab7); /* Gradien warna biru */
+    border: none;
+    border-radius: 12px; /* Sudut membulat */
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+    margin: 2rem auto; /* Jarak atas dan bawah yang lebih lapang */
+}
 
-        <div class="flex flex-col items-center mb-8">
+/* Hover Effect */
+.btn-lanjut:hover {
+    background: linear-gradient(90deg, #5dade2, #2e6ea5); /* Gradien hover lebih terang */
+    transform: translateY(-5px); /* Efek tombol melayang ke atas */
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3); /* Shadow lebih tebal */
+}
 
-            <div class="w-[70vw] mt-8 flex flex-col">
+    </style>
+</head>
 
-                <div>
-                    <p> </p>
-                </div>
-                <div class="md:flex md:grid-cols-2 justify-between">
-                    <p class="font-semibold text-4xl">Keranjang</p>                
+<body class="font-Inter bg-gray-50">
+    @include('user.components.navbar')
 
-                </div>
-
-                {{-- table --}}
-                <div class="rounded-md w-full h-fit my-7">
-                    <div class="overflow-x-auto py-5">
-                        <table class="w-full">
-                            <thead class="bg-white">
-                                <tr class="bg-white text-black h-[5vh] rounded-tl-md rounded-tr-md text-center align-middle">
-                                    <th class="text-center align-middle">Produk</th>
-                                    <th class="text-center align-middle">Harga</th>
-                                    <th class="text-center align-middle">Hapus</th>
-                                    <th class="text-center align-middle">Jumlah</th>
-                                    <th class="text-center align-middle">Total Harga</th>
-                                </tr>
-                            </thead>
-                            @php
-                                $jumlah = 0;
-                            @endphp
-                            <tbody class="border-t">
-                                @isset($carts)
-                                @foreach ($carts as $cart)
-                                <tr>
-
-                                    <th scope="row" class="w-5/12">
-                                        <div class="sm:flex sm:grid-cols-3 gap-4 justify-center my-5">
-                                            <div class="w-2/5">
-                                                @if (file_exists(public_path('storage/gambar-obat/' . $cart->product_photo)) && $cart->product_photo !== NULL)
-                                                    <img src="{{ asset('storage/gambar-obat/' . $cart->product_photo) }}" alt="" class="w-full">
-                                                @else
-                                                    <img src="{{asset('img/obat1.jpg/')}}" alt="" class="w-full">
-                                                @endif
-                                            </div>
-                                            <div class="w-3/5 text-start flex flex-col gap-1 items-left justify-center">
-                                                <p class="font-semibold text-wrap ">{{ $cart->product_name }}</p>
-                                                <p class="font-normal">Kategori Obat : {{ $cart->category }}</p> 
-
-                                            </div>
-                                            
-                                        </div>
-                                    </th>
-                                    <th scope="row" class="w-2/12">
-                                        <p class="font-semibold text-lg">Rp {{ number_format($cart->product_sell_price , 0, ',', '.') }}</p>
-                                    </th>
-                                    <th scope="row" class="w-1/12">
-                                        <form action="/keranjang/hapus" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="hapus" value="satuan">
-                                            <input type="hidden" name="cart_id" value="{{ $cart->cart_id }}">
-                                            <button type="submit" class="w-[50px] h-[50px]">
-                                                <p class="text-center"style="color: red;">Hapus</p>
-                                            </button>
-                                        </form>
-                                    </th>
-                                    <th class="w-2/12">
-                                        <div class="sm:flex sm:grid-cols-3 gap-4 justify-center ">
-                                            <livewire:count-product-cart :price="$cart->product_sell_price" :cart="$cart->cart_id" :stock="$cart->product_stock" :quantity="$cart->quantity" :keranjang="true"/>
-                                        </div>
-                                    </th>
-                                    <th class="w-2/12 text-center align-middle">
-                                        <livewire:product-price-cart :cart="$cart->cart_id" :totalprice="$cart->total_harga"/>
-                                        </th>
-                                    </tr>
-                                    @php
-                                    $jumlah += $cart->total_harga
-                                    @endphp
-                                @endforeach
-                                @endisset
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                @isset($cart)
-
-                    <div class="flex justify-end items-end my-3 me-10">
-                        <a href="/booking" class="p-2 px-7 rounded-lg shadow-lg text-white font-semibold bg-[#3498db]">Lanjut</a>
-                    </div>
-                @else
-                    <div class="text-black text-center flex flex-col items-center justify-center px-60 gap-4 h-96">
-                        <p class="text-center text-2xl font-bold">
-                            Keranjang Anda Kosong <br>
-                        </p>
+    <div class="container mx-auto px-4">
+        <h1 class="text-3xl font-bold text-gray-800 mt-12">Keranjang Belanja</h1>
+        <div class="cart-container">
+            @isset($carts)
+                @foreach ($carts as $cart)
+                <div class="cart-item">
+                    <!-- Product Image -->
+                    <img src="{{ file_exists(public_path('storage/gambar-obat/' . $cart->product_photo)) && $cart->product_photo !== NULL ? asset('storage/gambar-obat/' . $cart->product_photo) : asset('img/obat1.jpg/') }}" alt="{{ $cart->product_name }}">
+                    
+                    <!-- Product Details -->
+                    <div class="cart-details">
+                        <p class="text-lg font-semibold">{{ $cart->product_name }}</p>
+                        <p class="text-gray-500 text-sm">Kategori Obat: {{ $cart->category }}</p>
                     </div>
 
-                    {{-- <div class="flex justify-end items-end my-3 me-10">
-                        <button disabled class="p-2 px-7 rounded-lg shadow-lg text-white font-semibold bg-slate-400">Booking</button>
-                    </div> --}}
-                @endisset
+                    <!-- Actions -->
+                    <div class="cart-actions">
+                        <!-- Quantity Control -->
+                        <div class="cart-quantity">
+                            <livewire:count-product-cart :price="$cart->product_sell_price" :cart="$cart->cart_id" :stock="$cart->product_stock" :quantity="$cart->quantity" :keranjang="true"/>
+                        </div>
 
-            </div>
+                        <!-- Price -->
+                        <p class="text-lg font-bold text-gray-700">Rp {{ number_format($cart->product_sell_price, 0, ',', '.') }}</p>
+
+                        <!-- Delete Button -->
+                        <form action="/keranjang/hapus" method="POST">
+                            @csrf
+                            <input type="hidden" name="hapus" value="satuan">
+                            <input type="hidden" name="cart_id" value="{{ $cart->cart_id }}">
+                            <button type="submit">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+                @endforeach
+            @else
+                <p class="text-center text-gray-500">Keranjang Anda kosong.</p>
+            @endisset
         </div>
 
+        <!-- Proceed Button -->
+        <!-- Proceed Button -->
+@isset($cart)
+<div class="flex justify-center mt-10 mb-10">
+    <a href="/booking" 
+       class="btn-lanjut">
+       Lanjut
+    </a>
+</div>
+@endisset
 
-        @include('user.components.footer')
-        @livewireScripts
-        <script>
-            const cartAlert = () => {
-            const modals = document.getElementById('cartAlertPopUp');
-            const buttons = document.getElementById("btnCart");
+    </div>
 
-            if (modals.classList.contains('hidden')) {
-                buttons.disabled = false;
-                requestAnimationFrame(() => {
-                    modals.classList.remove('hidden');
-                    document.body.classList.add('max-h-[100vh]', 'overflow-hidden');
-                    requestAnimationFrame(() => {
-                        modals.classList.add('opacity-100');
-                    });
-                });
-            } else {
-                buttons.disabled = true;
-                requestAnimationFrame(() => {
-                    modals.classList.remove('opacity-100');
-                    document.body.classList.remove('max-h-[100vh]', 'overflow-hidden');
-                    requestAnimationFrame(() => {
-                        modals.classList.add('hidden');
-                    });
-                });
-            }
-        }
-        </script>
-    </body>
+    @include('user.components.footer')
+    @livewireScripts
+</body>
 
-    </html>
+</html>

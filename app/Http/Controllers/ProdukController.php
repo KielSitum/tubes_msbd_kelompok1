@@ -188,9 +188,9 @@ class ProdukController extends Controller
         // akhir filter cari
             
         if(isset($product)) {
-            $product = $product->orderBy('product_status')->paginate(10)->withQueryString();
+            $product = $product->orderBy('product_status')->paginate(12)->withQueryString();
         }else{
-            $product = Produk::orderBy('product_status')->paginate(10)->withQueryString();
+            $product = Produk::orderBy('product_status')->paginate(12)->withQueryString();
         }
 
         return view("user.products", [

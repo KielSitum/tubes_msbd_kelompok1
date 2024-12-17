@@ -1,75 +1,172 @@
-{{-- SIDEBAR START --}}
+<!-- SIDEBAR START -->
 <div class="flex">
-    <nav class="bg-gradient-to-r from-blue-500 to-blue-700 p-8 w-[15%] shadow-lg fixed left-0 top-0 h-full z-20 flex flex-col gap-8" id="sidebar">
-        <div class="flex justify-between w-full mb-6">
-            <p class="bg-blue text-white font-bold px-4 py-2 rounded-full text-2xl leading-tight text-left">
+    <nav class="bg-gradient-to-r from-blue-500 to-blue-700 p-6 w-64 md:w-[15%] shadow-lg fixed left-0 top-0 h-full z-20 flex flex-col justify-between gap-6 animated-bg" id="sidebar">
+        <!-- Title -->
+        <div class="flex justify-center items-center mb-6">
+            <p class="animated-title text-white font-bold text-2xl leading-tight text-center">
                 <span class="block">Toko Obat</span>
                 <span class="block">Subur</span>
             </p>
         </div>
 
-        <hr class="border border-1 border-gray-200 opacity-40 mb-6">
+        <hr class="border border-1 border-gray-300 opacity-30 mb-4">
 
-        <div class="flex flex-col gap-6 text-white text-lg">
-            <a href="/cashier" class="flex items-center gap-3 hover:bg-blue-600 p-3 rounded-md transition-colors">
-                Kasir
+        <!-- Menu Items -->
+        <div class="flex flex-col gap-4 text-white text-lg flex-grow">
+            <a href="/cashier" class="flex items-center gap-3 p-3 rounded-md bg-gray-800 hover:bg-blue-400 hover:text-gray-900 hover:shadow-lg transition-all">
+                <i class="fas fa-cash-register"></i> Kasir
             </a>
-            <a href="/cashier/pesanan-online" class="flex items-center gap-3 hover:bg-blue-600 p-3 rounded-md transition-colors">
-                Pesanan Online
+            <a href="/cashier/pesanan-online" class="flex items-center gap-3 p-3 rounded-md bg-gray-800 hover:bg-blue-400 hover:text-gray-900 hover:shadow-lg transition-all">
+                <i class="fas fa-shopping-cart"></i> Pesanan Online
             </a>
-            <a href="/cashier/pesanan-pending" class="flex items-center gap-3 hover:bg-blue-600 p-3 rounded-md transition-colors">
-                Pesanan Pending
+            <a href="/cashier/pesanan-pending" class="flex items-center gap-3 p-3 rounded-md bg-gray-800 hover:bg-blue-400 hover:text-gray-900 hover:shadow-lg transition-all">
+                <i class="fas fa-clock"></i> Pesanan Pending
             </a>
-            <a href="/cashier/riwayat-transaksi" class="flex items-center gap-3 hover:bg-blue-600 p-3 rounded-md transition-colors">
-                Riwayat Transaksi
+            <a href="/cashier/riwayat-transaksi" class="flex items-center gap-3 p-3 rounded-md bg-gray-800 hover:bg-blue-400 hover:text-gray-900 hover:shadow-lg transition-all">
+                <i class="fas fa-history"></i> Riwayat Transaksi
             </a>
-            <div>
-                <button onclick="logoutAlert()" type="button" class="flex items-center gap-3 hover:bg-blue-600 p-3 rounded-md transition-colors">
-                    Logout
-                </button>
-            </div>
+        </div>
+
+        <!-- Logout Button -->
+        <div>
+            <button onclick="logoutAlert()" type="button" class="flex items-center justify-center gap-3 p-3 text-white rounded-md bg-red-600 hover:bg-red-700 hover:shadow-md transition-all">
+                Logout
+            </button>
         </div>
     </nav>
 </div>
-{{-- SIDEBAR END --}}
+<!-- SIDEBAR END -->
 
-{{-- SIDEBAR END --}}
-
-{{-- LOGOUT ALERT START --}}
-<form action="/logout" method="POST" class="w-screen h-screen opacity-0 absolute top-0 backdrop-blur-md z-50 hidden flex justify-center items-center transition duration-300 ease-in-out backdrop-brightness-50" id="logoutAlertPopUp">
-    @csrf
-    <div class="bg-white h-fit w-[30%] rounded-lg shadow-sm shadow-semiBlack py-10 px-8 flex flex-col gap-4 items-center text-center">
-        <i class="text-7xl text-mainColor fa-solid fa-circle-question"></i>
-        <p class="text-2xl font-bold w-[80%]">Apakah Anda yakin ingin keluar dari akun Anda?</p>
-        <button onclick="logoutAlert()" type="button" class="bg-mainColor px-4 w-52 py-2 text-white font-bold rounded-md shadow-md shadow-semiBlack">Kembali</button>
-        <button type="submit" class="bg-mediumRed w-52 px-4 py-2 text-white font-bold rounded-md shadow-md shadow-semiBlack" disabled id="btnLogout">Keluar</button>
+<!-- Custom Logout Modal -->
+<div id="logoutModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 hidden">
+    <div class="bg-white p-10 rounded-xl shadow-2xl w-[90%] md:w-[30rem] max-w-full">
+        <h2 class="text-3xl font-bold text-gray-700 mb-6 text-center">Confirm logout</h2>
+        <p class="text-lg text-gray-500 mb-8 text-center">Are you sure you want to log out?</p>
+        <form method="POST" action="/logout" class="flex justify-center gap-6">
+            @csrf
+            <button type="button" onclick="closeLogoutModal()" class="px-6 py-3 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-lg transition-all">
+                Cancel
+            </button>
+            <button type="submit" class="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition-all">
+                OK
+            </button>
+        </form>
     </div>
-</form>  
-{{-- LOGOUT ALERT END --}}
+</div>
 
-<script>
-    const logoutAlert = () => {
-        const modal = document.getElementById('logoutAlertPopUp');
-        const button = document.getElementById("btnLogout");
+<!-- Custom Styles -->
+<style>
+/* Custom styles */
+#sidebar {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+}
 
-        if (modal.classList.contains('hidden')) {
-            button.disabled = false;
-            requestAnimationFrame(() => {
-                modal.classList.remove('hidden');
-                document.body.classList.add('max-h-[100vh]', 'overflow-hidden');
-                requestAnimationFrame(() => {
-                    modal.classList.add('opacity-100');
-                });
-            });
-        } else {
-            button.disabled = true;
-            requestAnimationFrame(() => {
-                modal.classList.remove('opacity-100');
-                document.body.classList.remove('max-h-[100vh]', 'overflow-hidden');
-                requestAnimationFrame(() => {
-                    modal.classList.add('hidden');
-                });
-            });
-        }
+#sidebar p {
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: bold;
+}
+
+#sidebar a, #sidebar button {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+#sidebar a:hover, #sidebar button:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+hr {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Animated gradient background */
+.animated-bg {
+    background: linear-gradient(270deg, #93c5fd, #6ee7b7);
+    background-size: 400% 400%;
+    animation: gradientAnimation 8s ease infinite;
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
     }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Animated text gradient */
+.animated-title {
+    background: linear-gradient(90deg, #000000, #d4af37, #000000);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textAnimation 6s ease infinite;
+}
+
+@keyframes textAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Modal Fade-In Animation */
+#logoutModal {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Responsive Adjustment */
+@media (max-width: 768px) {
+    #sidebar {
+        width: 50%;
+        padding: 4%;
+    }
+    #sidebar p {
+        font-size: 1.5rem;
+    }
+
+    #logoutModal .w-[30rem] {
+        width: 95%;
+    }
+}
+</style>
+
+<!-- JavaScript -->
+<script>
+function logoutAlert() {
+    // Menampilkan modal
+    document.getElementById('logoutModal').classList.remove('hidden');
+}
+
+function closeLogoutModal() {
+    // Menyembunyikan modal
+    document.getElementById('logoutModal').classList.add('hidden');
+}
 </script>
+
+<!-- FontAwesome for Icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
