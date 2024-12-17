@@ -104,10 +104,7 @@
 
         <div class="flex flex-col gap-8">
             <div class="md:flex gap-4 items-center">
-                <button onclick="sidebar()" class="p-3 px-4 rounded-lg shadow bg-white w-fit z-10 transition"
-                    id="buttonToggle">
-                    <i class="fa-solid fa-bars" id="toggle"></i>
-                </button>
+                @include('pemilik.components.navbar')
 
                 <p class="text-3xl font-bold ms-16">Dashboard</p>
             </div>
