@@ -17,28 +17,81 @@
 
     <style>
         textarea {
-            min-height: 300px; 
-            resize: vertical; 
+            min-height: 300px;
+            resize: vertical;
+        }
+
+        .main-container {
+            background-color: #f3f4f6;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-field {
+            background-color: #f9fafb;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 10px;
+            width: 100%;
+            font-size: 1rem;
+            color: #4b5563;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #60a5fa;
+        }
+
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #2563eb;
+            transform: translateY(-2px);
+        }
+
+        .btn-back {
+            background-color: #4b5563;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-back:hover {
+            background-color: #374151;
         }
     </style>
 </head>
 
-<body class="font-Trip bg-[#DEDEDE]">
-    <div class="flex flex-col mb-8">
-        <div class="p-10 flex flex-col">
+<body class="font-Trip bg-gray-100">
+    <div class="main-container py-6">
+        <div class="container mx-auto p-6">
+            <div class="card p-8">
+                {{-- Back Button --}}
+                <a href="{{ url()->previous() }}" class="btn-back mb-4" style="background-color: rgb(0, 209, 0)">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali
+                </a>
 
-            {{-- back button --}}
-            <a href="{{ url()->previous()}}" class="p-3 px-4 rounded-full bg-mainColor w-fit">
-                <i class="fa-solid fa-arrow-left" style="color: white;"></i>
-            </a>
+                <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Tambah Batch</h1>
 
-            <p class="text-3xl font-TripBold my-3 mt-8">Tambah Batch</p>
-
-            {{-- container --}}
-            <div class="rounded-lg shadow-lg w-full bg-white h-fit md:p-16 md:px-24 p-7 overflow-x-auto">
+                {{-- Form --}}
                 <form action="{{ route('add-batch-process') }}" method="POST">
                     @csrf
-                    
                     @method('PUT')
 
                     @php
@@ -46,60 +99,59 @@
                         $detail_uuid = \Illuminate\Support\Str::uuid();
                     @endphp
 
-                    <div class="flex flex-col justify-center items-center mb-3">
-                        <p class="text-3xl font-TripBold">{{ $product->product_name }}</p>
-                        <input type="hidden" name="id" value="{{ $uuid }}">
-                        <input type="hidden" name="detail_id" value="{{ $detail_uuid }}">
+                    <input type="hidden" name="id" value="{{ $uuid }}">
+                    <input type="hidden" name="detail_id" value="{{ $detail_uuid }}">
+
+                    <div class="flex flex-col justify-center items-center mb-4">
+                        <h2 class="text-2xl font-semibold text-gray-700">{{ $product->product_name }}</h2>
                     </div>
 
-                    <div class="md:flex md:grid-col-4 gap-8 justify-between">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="flex-col w-full">
-                            <p class="mt-5">Nama Obat</p>
-                            <input type="text" id="" placeholder="Nama Obat" name="nama_obat" required 
-                                class="p-2 w-full text-slate-400 border rounded-xl shadow @error('nama_obat') is-invalid @enderror" value="{{ $product->product_name }}" readonly>
+                            <label class="block text-lg font-semibold text-gray-700 mt-3">Nama Obat</label>
+                            <input type="text" placeholder="Nama Obat" name="nama_obat" required 
+                                class="input-field" value="{{ $product->product_name }}" readonly>
 
-                            <p class="mt-5">Harga Beli Obat</p>
-                            <input type="text" id="" placeholder="Harga Beli Obat" name="harga_beli" required
-                                class="p-2 w-full border rounded-xl shadow @error('harga_beli') is-invalid @enderror" value="{{ old('harga_beli') }}">
-                                @error('harga_beli')
-                                <div class="text-xs text-mediumRed">{{ $message }}</div>
-                                @enderror
+                            <label class="block text-lg font-semibold text-gray-700 mt-5">Harga Beli Obat</label>
+                            <input type="text" placeholder="Harga Beli Obat" name="harga_beli" required
+                                class="input-field" value="{{ old('harga_beli') }}">
+                            @error('harga_beli')
+                                <div class="text-xs text-red-500">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="flex-col w-full">
-                            <p class="mt-5">Expired Obat</p>
-                            <input type="date" id="" placeholder="Expired Obat" name="expired_date" required
-                                class="p-2 w-full border rounded-xl shadow @error('expired_date') is-invalid @enderror" value="{{ old('expired_date') }}">
-                                @error('expired_date')
-                                <div class="text-xs text-mediumRed">{{ $message }}</div>
-                                @enderror
+                            <label class="block text-lg font-semibold text-gray-700 mt-3">Expired Obat</label>
+                            <input type="date" placeholder="Expired Obat" name="expired_date" required
+                                class="input-field" value="{{ old('expired_date') }}">
+                            @error('expired_date')
+                                <div class="text-xs text-red-500">{{ $message }}</div>
+                            @enderror
 
-                            
-
-                            <p class="mt-5">Harga Jual Obat</p>
-                            <input type="text" id="" placeholder="Harga Jual Obat" name="harga_jual" required
-                                class="p-2 w-full text-slate-400 border rounded-xl shadow @error('harga_jual') is-invalid @enderror" value="{{ number_format($product->product_sell_price, 0, ',', '.') }}" readonly>
-                                @error('harga_jual')
-                                <div class="text-xs text-mediumRed">{{ $message }}</div>
-                                @enderror
+                            <label class="block text-lg font-semibold text-gray-700 mt-5">Harga Jual Obat</label>
+                            <input type="text" placeholder="Harga Jual Obat" name="harga_jual" required
+                                class="input-field" value="{{ number_format($product->product_sell_price, 0, ',', '.') }}" readonly>
+                            @error('harga_jual')
+                                <div class="text-xs text-red-500">{{ $message }}</div>
+                            @enderror
                         </div>
+                    </div>
 
+                    <div class="flex flex-col md:flex-row gap-6">
                         <div class="flex-col w-full">
-                            <p class="mt-5">Stok Obat</p>
-                            <input type="text" id="" placeholder="Stok Obat" name="stock" required
-                                class="p-2 w-full border rounded-xl shadow @error('stock') is-invalid @enderror" value="{{ old('stock') }}">
-                                @error('stock')
-                                <div class="text-xs text-mediumRed">{{ $message }}</div>
-                                @enderror
+                            <label class="block text-lg font-semibold text-gray-700 mt-5">Stok Obat</label>
+                            <input type="text" placeholder="Stok Obat" name="stock" required
+                                class="input-field" value="{{ old('stock') }}">
+                            @error('stock')
+                                <div class="text-xs text-red-500">{{ $message }}</div>
+                            @enderror
                         </div>
-
                     </div>
 
                     <div class="flex justify-center mt-8">
-                    <button type="submit" class="w-48 bg-mainColor px-4 py-2 font-semibold text-lg text-white rounded-lg shadow shadow-semiBlack">Tambah</button>
+                        <button type="submit" class="btn-primary">Tambah</button>
                     </div>
                 </form>
-
             </div>
         </div>
     </div>
@@ -110,13 +162,13 @@
 
     <script>
         function showFile(input) {
-        const getFile = document.getElementById('uploadedFile');
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = (e) => {
-                getFile.src = e.target.result;
-            };
-            reader.readAsDataURL(input.files[0]);
+            const getFile = document.getElementById('uploadedFile');
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = (e) => {
+                    getFile.src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
             }
         }
     </script>

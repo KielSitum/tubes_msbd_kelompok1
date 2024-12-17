@@ -133,7 +133,7 @@ Route::middleware(['auth', 'verified', 'cekRole:owner'])->prefix('owner')->group
     
     Route::get('user', [OwnerController::class, 'display_user'])->name('list-user');
     Route::put('delete-user-process/{id}', [OwnerController::class, 'delete_user'])->name('delete-user');
-
+    
     Route::get('pesanan-pending', [OwnerController::class, 'pendingOrder'])->name('pesanan-pending');
     Route::post('pesanan-pending/{sellingInvoiceID}', [OwnerController::class, 'refund'])->name('owner-refund');
     Route::get('resep_dokter/{img}', [OwnerController::class, 'resep_dokter']);

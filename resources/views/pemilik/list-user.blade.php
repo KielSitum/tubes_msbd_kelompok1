@@ -16,36 +16,37 @@
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
 </head>
 
-<body class="font-Inter relative">
-    @include('pemilik.components.sidebar')
-    <main class="p-10 font-Inter bg-plat min-h-[100vh] h-full" id="mainContent">
-        @include('pemilik.components.navbar')
+<body class="font-Inter bg-gray-100">
+    <div class="flex">
+        @include('pemilik.components.sidebar')
 
-        @if (session('add_status'))
-            <div class="absolute top-4 left-[42.5vw] bg-mainColor shadow-md w-[25vw] h-14 z-20 gap-2 items-center px-4 animate-notif opacity-0 justify-center rounded-md flex unselectable">
-                <i class="text-white fa-solid fa-circle-check"></i>
-                <p class="text-lg text-white font-semibold"> {{ session('add_status') }} </p>
-            </div>
-        @elseif (session('error_status'))
-            <div class="absolute top-4 left-[42.5vw] bg-red-500 shadow-md w-[25vw] h-14 z-20 gap-2 items-center px-4 animate-notif opacity-0 justify-center rounded-md flex unselectable">
-                <p class="text-lg text-white font-semibold"> {{ session('error_status') }} </p>
-            </div>
-        @endif
+        <main class="flex-grow p-8 font-Inter bg-white shadow-lg rounded-lg m-4" id="mainContent">
+            @include('pemilik.components.navbar')
 
-        <div class="flex flex-col gap-8 mt-10">
-            <div class="md:flex justify-between">
-                <p class="text-3xl font-bold mb-2">List Pengguna</p>
+            @if (session('add_status'))
+                <div class="fixed top-6 left-1/2 transform -translate-x-1/2 bg-green-500 text-white rounded-lg shadow-lg py-3 px-6 animate-bounce">
+                    <i class="fa-solid fa-circle-check mr-2"></i>{{ session('add_status') }}
+                </div>
+            @elseif (session('error_status'))
+                <div class="fixed top-6 left-1/2 transform -translate-x-1/2 bg-red-500 text-white rounded-lg shadow-lg py-3 px-6 animate-bounce">
+                    {{ session('error_status') }}
+                </div>
+            @endif
+
+            <div class="mb-6">
+                <h1 class="text-4xl font-bold text-mainColor">Daftar Pengguna</h1>
+                <p class="text-gray-600">Kelola data pengguna dengan mudah.</p>
             </div>
 
-            <div class="bg-white rounded-lg p-4 shadow-md overflow-x-auto">
-                <table id="myTable" class="table table-striped">
-                    <thead>
+            <div class="bg-gray-50 rounded-lg shadow p-6">
+                <table id="myTable" class="min-w-full bg-white border border-gray-200 rounded-lg">
+                    <thead class="bg-mainColor text-white">
                         <tr>
-                            <th>No</th>
-                            <th>Nama User</th>
-                            <th>Email</th>
-                            <th>No. Telepon</th>
-                            <th>Aksi</th>
+                            <th class="py-3 px-6 text-left">No</th>
+                            <th class="py-3 px-6 text-left">Nama User</th>
+                            <th class="py-3 px-6 text-left">Email</th>
+                            <th class="py-3 px-6 text-left">No. Telepon</th>
+                            <th class="py-3 px-6 text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -54,71 +55,58 @@
                             $index = 1;
                         @endphp
                         @foreach ($user as $item)
-                        <tr>
-                            <td>{{$i++}}</td>
-                            <td>
-                                <span class="font-bold">{{ $item->user->username }}</span>
-                            </td>
-                            <td>{{ $item->user->email }}</td>
-                            <td>
-                                {{ $item->customer_phone }}
-                            </td>
-                            <td>
-                                <button onclick="showPopUpDelete({{ $index }})" class="p-2 bg-mediumRed rounded"><i
-                                        class="fa-regular fa-trash-can" style="color: white;"></i></button>
+                            <tr class="border-b hover:bg-gray-100">
+                                <td class="py-3 px-6">{{$i++}}</td>
+                                <td class="py-3 px-6 font-bold">{{ $item->user->username }}</td>
+                                <td class="py-3 px-6">{{ $item->user->email }}</td>
+                                <td class="py-3 px-6">{{ $item->customer_phone }}</td>
+                                <td class="py-3 px-6 text-center">
+                                    <button onclick="showPopUpDelete({{ $index }})" class="bg-red-500 text-white py-2 px-4 rounded shadow hover:bg-red-600">
+                                        <i class="fa-regular fa-trash-can"></i>
+                                    </button>
 
-                                {{-- Pop up konfirmasi hapus start --}}
-                                <div class="fixed w-screen h-screen backdrop-blur-md top-0 left-0 flex justify-center items-center backdrop-brightness-75 hidden"
-                                    id="popup{{ $index }}">
-                                    <div
-                                        class="w-[30%] h-[50%] bg-white rounded-2xl shadow-md p-8 flex flex-col gap-6 relative items-center">
-                                        <div class="border-2 border-mainColor rounded-full w-fit">
-                                            <i class="fa-solid fa-question fa-2xl p-8 py-10"
-                                                style="color: #1A8889;"></i>
-                                        </div>
+                                    {{-- Pop up konfirmasi hapus start --}}
+                                    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden" id="popup{{ $index }}">
+                                        <div class="bg-white rounded-lg shadow-lg p-8 w-[400px]">
+                                            <div class="text-center">
+                                                <div class="bg-mainColor text-white rounded-full inline-block p-4">
+                                                    <i class="fa-solid fa-question fa-2xl"></i>
+                                                </div>
+                                                <p class="text-xl font-bold text-gray-800 mt-4">Konfirmasi Hapus</p>
+                                                <p class="text-gray-600">Apakah Anda yakin ingin menghapus {{ $item->user->username }}?</p>
+                                            </div>
 
-                                        <p class="text-2xl text-mainColor font-TripBold text-center">Apakah Anda Yakin
-                                            Ingin Menghapus {{ $item->user->username }}?</p>
-
-                                        <div class="flex gap-4">
-                                            <form action="{{ route('delete-user',['id'=> $item->customer_id]) }}" method="post">
-                                                @csrf
-                                                @method('put')
-                                                <button type="button" onclick="showPopUpDelete({{ $index }})"
-                                                class="bg-mediumRed text-white text-2xl p-1 px-5 rounded-lg">Tidak</button>
-                                                <button type="submit"
-                                                class="bg-green-600 text-white text-2xl p-1 px-10 rounded-lg">Ya</button>
-                                            </form>
+                                            <div class="mt-6 flex justify-center gap-4">
+                                                <button type="button" onclick="showPopUpDelete({{ $index }})" class="bg-gray-400 text-white py-2 px-6 rounded hover:bg-gray-500">Tidak</button>
+                                                <form action="{{ route('delete-user',['id'=> $item->customer_id]) }}" method="post">
+                                                    @csrf
+                                                    @method('put')
+                                                    <button type="submit" class="bg-red-500 text-white py-2 px-6 rounded hover:bg-red-600">Ya</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                {{-- Pop up konfirmasi hapus end --}}
-                            </td>
+                                    {{-- Pop up konfirmasi hapus end --}}
+                                </td>
                             </tr>
                             @php
                                 $index++;
                             @endphp
-                            @endforeach
+                        @endforeach
                     </tbody>
                 </table>
             </div>
-        </div>
-    </main>
+        </main>
+    </div>
 
     {{-- DATATABLES SCRIPT --}}
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
     <script src="{{ asset('js/datatables.js') }}"></script>
 
     <script>
         const showPopUpDelete = (index) => {
-            const popup = document.getElementById('popup'+index);
-
-            if (popup.classList.contains('hidden')) {
-                popup.classList.remove('hidden')
-            } else {
-                popup.classList.add('hidden')
-            }
+            const popup = document.getElementById('popup' + index);
+            popup.classList.toggle('hidden');
         }
     </script>
 </body>

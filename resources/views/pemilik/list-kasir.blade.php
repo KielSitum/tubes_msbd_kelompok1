@@ -16,318 +16,268 @@
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
 </head>
 
-<body class="font-Inter relative">
-    @include('pemilik.components.sidebar')
-    <main class="p-10 font-Inter bg-plat min-h-[100vh] h-full" id="mainContent">
-        @include('pemilik.components.navbar')
+<body class="font-Inter bg-gray-100">
+    <div class="flex">
+        @include('pemilik.components.sidebar')
 
-        <div class="flex flex-col gap-8 mt-10">
-            <div class="md:flex justify-between">
-                <div>
-                    <p class="text-3xl font-bold mb-2">List Kasir</p>
+        <main class="flex-grow p-8 font-Inter bg-white shadow-lg rounded-lg m-4" id="mainContent">
+            @include('pemilik.components.navbar')
 
-                    @if (session('error'))
-                        @foreach (session('error') as $error)
-                            <div class="text-md text-mediumRed">{{ $error[0] }}</div>
-                        @endforeach
-                    @endif
+            <div class="mb-6">
+                <h1 class="text-4xl font-bold text-mainColor">List Kasir</h1>
+                <p class="text-gray-600">Kelola data kasir dengan mudah.</p>
+            </div>
+
+            @if (session('error'))
+                @foreach (session('error') as $error)
+                    <div class="text-md text-mediumRed">{{ $error[0] }}</div>
+                @endforeach
+            @endif
+
+            @if (session('add_status'))
+                <div class="fixed top-6 left-1/2 transform -translate-x-1/2 bg-green-500 text-white rounded-lg shadow-lg py-3 px-6 animate-bounce">
+                    <i class="fa-solid fa-circle-check mr-2"></i>{{ session('add_status') }}
                 </div>
+            @elseif (session('error_status'))
+                <div class="fixed top-6 left-1/2 transform -translate-x-1/2 bg-red-500 text-white rounded-lg shadow-lg py-3 px-6 animate-bounce">
+                    {{ session('error_status') }}
+                </div>
+            @endif
 
-                @if (session('add_status'))
-                    <div class="absolute top-4 left-[42.5vw] bg-mainColor shadow-md w-[25vw] h-14 z-20 gap-2 items-center px-4 animate-notif opacity-0 justify-center rounded-md flex unselectable">
-                        <i class="text-white fa-solid fa-circle-check"></i>
-                        <p class="text-lg text-white font-semibold"> {{ session('add_status') }} </p>
-                    </div>
-                @elseif (session('error_status'))
-                    <div class="absolute top-4 left-[42.5vw] bg-red-500 shadow-md w-[25vw] h-14 z-20 gap-2 items-center px-4 animate-notif opacity-0 justify-center rounded-md flex unselectable">
-                        <p class="text-lg text-white font-semibold"> {{ session('error_status') }} </p>
-                    </div>
-                @endif
-
+            <div class="flex justify-between mb-4">
                 <button onclick="showPopUpTambah()" class="px-6 h-12 py-2.5 rounded-lg bg-mainColor text-white font-semibold">
                     <i class="fa-solid fa-plus pe-2"></i>
                     Tambah Kasir
                 </button>
+            </div>
 
-                {{-- MODAL TAMBAH KASIR START --}}
-                <div class="top-0 left-0 hidden flex flex-col justify-center items-center absolute z-10 backdrop-blur-sm backdrop-brightness-75 rounded-xl w-full h-screen"
-                id="popupTambah">
-                <div class="w-fit flex flex-col justify-center">
-                    <div class="bg-mainColor text-white font-semibold px-10 py-4 rounded-t-xl flex justify-between">
-                        Tambah Kasir
-                        <button onclick="showPopUpTambah()">
-                        <i class="fa-solid fa-xmark fa-xl" style="color: white"></i>
+            {{-- MODAL TAMBAH KASIR START --}}
+            <div class="top-0 left-0 hidden flex justify-center items-center absolute z-10 backdrop-blur-sm backdrop-brightness-50 w-full h-full" id="popupTambah" style="position: fixed"  >
+                <div class="w-full max-w-lg p-6 bg-gradient-to-tl from-indigo-600 to-blue-400 rounded-xl shadow-2xl">
+                    <!-- Header -->
+                    <div class="bg-white p-4 rounded-t-xl flex justify-between items-center text-gray-800 shadow-lg">
+                        <span class="font-bold text-lg">Tambah Kasir</span>
+                        <button onclick="showPopUpTambah()" class="text-gray-700 text-xl">
+                            <i class="fa-solid fa-xmark"></i>
                         </button>
                     </div>
-                    <div class="bg-white p-7 pt-4 rounded-b-xl">
+
+                    <!-- Form Content -->
+                    <div class="p-6 space-y-6 bg-white rounded-b-xl shadow-lg">
                         <form action="{{ route('tambah-kasir') }}" method="post">
                             @csrf
-                            <div class="flex gap-6 p-4">
-                                <table>
-                                    <tr>
-                                        <td class="py-5">
-                                            <label for="namaUser">Nama User</label>
-                                        </td>
-                                        <td class="ps-5">
-                                            <input type="text" name="username" required value="{{ old('username') }}" class="p-2 px-4 rounded-xl shadow border  @error('username') is-invalid @enderror">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="py-5">
-                                            <label for="email">Email</label>
-                                        </td>
-                                        <td class="ps-5">
-                                            <input type="text" name="email" required value="{{ old('email') }}" class="p-2 px-4 rounded-xl shadow border  @error('email') is-invalid @enderror">
-                                            @error('email')
-                                            <div class="text-xs text-mediumRed">{{ $message }}</div>
-                                            @enderror
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="py-5">
-                                            <label for="password">Password</label>
-                                        </td>
-                                        <td class="ps-5">
-                                            <input type="password" name="password" required value="{{ old('password') }}" class="p-2 px-4 rounded-xl shadow border  @error('password') is-invalid @enderror">
-                                            @error('password')
-                                            <div class="text-xs text-mediumRed">{{ $message }}</div>
-                                            @enderror
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="py-5">
-                                            <label for="gender">Gender</label>
-                                        </td>
-                                        <td class="ps-5">
-                                            <select name="gender" class="p-2 px-4 rounded-xl shadow border" name="gender" id="">
-                                                <option value="pria" >Pria</option>
-                                                <option value="wanita">Wanita</option>
-                                            </select>
-                                    </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="py-5">
-                                            <label for="nohp">No. Handphone</label>
-                                        </td>
-                                        <td class="ps-5">
-                                            <input type="number" name="nohp" value="{{ old('no_hp') }}" class="p-2 px-4 rounded-xl shadow border  @error('nohp') is-invalid @enderror">
-                                            @error('nohp')
-                                            <div class="text-xs text-mediumRed">{{ $message }}</div>
-                                            @enderror
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="py-5">
-                                            <label for="alamatKasir">Alamat</label>
-                                        </td>
-                                        <td class="ps-5">
-                                            <textarea name="address" class="p-2 px-4 rounded-xl shadow border  @error('address') is-invalid @enderror">{{ old('address') }}</textarea>
-                                            @error('address')
-                                            <div class="text-xs text-mediumRed">{{ $message }}</div>
-                                            @enderror
-                                        </td>
-                                    </tr>
-                                </table>
+                            <!-- Form Fields -->
+                            <div class="space-y-5">
+                                <div class="flex flex-col space-y-2">
+                                    <label for="username" class="text-sm font-medium text-gray-600">Nama User</label>
+                                    <input type="text" name="username" required value="{{ old('username') }}" class="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm @error('username') is-invalid @enderror">
+                                </div>
+
+                                <div class="flex flex-col space-y-2">
+                                    <label for="email" class="text-sm font-medium text-gray-600">Email</label>
+                                    <input type="email" name="email" required value="{{ old('email') }}" class="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm @error('email') is-invalid @enderror">
+                                    @error('email')
+                                        <div class="text-xs text-red-500 mt-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="flex flex-col space-y-2">
+                                    <label for="password" class="text-sm font-medium text-gray-600">Password</label>
+                                    <input type="password" name="password" required value="{{ old('password') }}" class="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm @error('password') is-invalid @enderror">
+                                    @error('password')
+                                        <div class="text-xs text-red-500 mt-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="flex flex-col space-y-2">
+                                    <label for="gender" class="text-sm font-medium text-gray-600">Gender</label>
+                                    <select name="gender" class="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm">
+                                        <option value="pria">Pria</option>
+                                        <option value="wanita">Wanita</option>
+                                    </select>
+                                </div>
+
+                                <div class="flex flex-col space-y-2">
+                                    <label for="nohp" class="text-sm font-medium text-gray-600">No. Handphone</label>
+                                    <input type="number" name="nohp" value="{{ old('nohp') }}" class="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm @error('nohp') is-invalid @enderror">
+                                    @error('nohp')
+                                        <div class="text-xs text-red-500 mt-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="flex flex-col space-y-2">
+                                    <label for="address" class="text-sm font-medium text-gray-600">Alamat</label>
+                                    <textarea name="address" class="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm @error('address') is-invalid @enderror">{{ old('address') }}</textarea>
+                                    @error('address')
+                                        <div class="text-xs text-red-500 mt-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
-                            <div class="flex justify-end">
-                                <button type="submit"
-                                    class="p-2 px-4 me-4 bg-secondaryColor text-white font-semibold rounded-lg">Tambah</button>
+
+                            <!-- Submit Button -->
+                            <div class="mt-6 flex justify-end">
+                                <button type="submit" class="px-6 py-3 bg-indigo-600 text-white rounded-lg shadow-lg hover:bg-indigo-700 transition duration-300">
+                                    Tambah Kasir
+                                </button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
             {{-- MODAL TAMBAH KASIR END --}}
-            </div>
 
-            <div class="bg-white rounded-lg p-4 shadow-md overflow-x-auto">
-                <table id="myTable" class="table table-striped">
-                    <thead>
+
+            <div class="bg-gray-50 rounded-lg shadow p-6">
+                <table id="myTable" class="min-w-full bg-white border border-gray-200 rounded-lg">
+                    <thead class="bg-mainColor text-white">
                         <tr>
-                            <th>No</th>
-                            <th>Nama User</th>
-                            <th>Email</th>
-                            <th>Gender</th>
-                            <th>No. Handphone</th>
-                            <th>Alamat</th>
-                            <th>Aksi</th>
+                            <th class="py-3 px-6 text-left">No</th>
+                            <th class="py-3 px-6 text-left">Nama User</th>
+                            <th class="py-3 px-6 text-left">Email</th>
+                            <th class="py-3 px-6 text-left">Gender</th>
+                            <th class="py-3 px-6 text-left">No. Handphone</th>
+                            <th class="py-3 px-6 text-left">Alamat</th>
+                            <th class="py-3 px-6 text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @php 
                         $i = 1;
-                        $index =1;
+                        $index = 1;
                         @endphp
                         @foreach ($cashiers as $cashier) 
-                        <tr>
-                            <td>{{$i}}</td>
-                            <td>
-                                <span class="font-bold">{{ $cashier->username }}</span>
-                            </td>
-                            <td>{{ $cashier->email }}</td>
-                            <td>{{ $cashier->cashier->cashier_gender }}</td>
-                            <td>
-                                {{ $cashier->cashier->cashier_phone }}
-                            </td>
-                            <td>
-                                {{ $cashier->cashier->cashier_address }}
-                            </td>
-                            <td>
+                        <tr class="border-b hover:bg-gray-100">
+                            <td class="py-3 px-6">{{$i}}</td>
+                            <td class="py-3 px-6 font-bold">{{ $cashier->username }}</td>
+                            <td class="py-3 px-6">{{ $cashier->email }}</td>
+                            <td class="py-3 px-6">{{ $cashier->cashier->cashier_gender }}</td>
+                            <td class="py-3 px-6">{{ $cashier->cashier->cashier_phone }}</td>
+                            <td class="py-3 px-6">{{ $cashier->cashier->cashier_address }}</td>
+                            <td class="py-3 px-6 text-center">
                                 <div class="flex">
-                                    <button onclick="showPopUpEdit({{ $index }})" class="p-2 bg-secondaryColor rounded mx-2"><i
-                                            class="fa-regular fa-pen-to-square" style="color: white;"></i></button>
-                                    <button onclick="showPopUpDelete({{ $index }})" class="p-2 bg-mediumRed rounded mx-2"><i
-                                            class="fa-regular fa-trash-can" style="color: white;"></i></button>
-                                </div>         
+                                    <button onclick="showPopUpEdit({{ $index }})" class="p-2 bg-secondaryColor rounded mx-2 "><i class="fa-regular fa-pen-to-square" style="color: white;"></i></button>
+                                    <button onclick="showPopUpDelete({{ $index }})" class="p-2 bg-mediumRed rounded mx-2"><i class="fa-regular fa-trash-can" style="color: white;"></i></button>
+                                </div>
 
                                 {{-- Pop up konfirmasi hapus start --}}
-                                <div class="absolute w-screen h-screen backdrop-blur-md top-0 left-0 flex justify-center items-center backdrop-brightness-75 hidden"
-                                    id="popupHapus{{ $index }}">
-                                    <div
-                                        class="w-[30%] h-[50%] bg-white rounded-2xl shadow-md p-8 flex flex-col gap-6 relative items-center">
-                                        <div class="border-2 border-mainColor rounded-full w-fit">
-                                            <i class="fa-solid fa-question fa-2xl p-8 py-10"
-                                                style="color: #1A8889;"></i>
+                                <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden" id="popupHapus{{ $index }}">
+                                    <div class="bg-white rounded-lg shadow-lg p-8 w-[400px]">
+                                        <div class="text-center">
+                                            <div class="bg-mainColor text-white rounded-full inline-block p-4">
+                                                <i class="fa-solid fa-question fa-2xl"></i>
+                                            </div>
+                                            <p class="text-xl font-bold text-gray-800 mt-4">Konfirmasi Hapus</p>
+                                            <p class="text-gray-600">Apakah Anda yakin ingin menghapus {{ $cashier->username }}?</p>
                                         </div>
 
-                                        <p class="text-2xl text-mainColor font-TripBold text-center">Apakah Anda Yakin
-                                            Ingin Menghapus {{ $cashier->username }}?</p>
-
-                                        <div class="flex gap-4">
-                                            <button onclick="showPopUpDelete({{ $index }})"
-                                                class="bg-mediumRed text-white text-2xl p-1 px-5 rounded-lg">Tidak</button>
-                                                <form action="{{ route('delete-kasir') }}" method="POST">
-                                                    @csrf
-                                                    @method('put')
-                                                    <input type="hidden" name="id" value="{{ $cashier->cashier->user_id }}">
-                                                    <button type="submit"
-                                                    class="bg-green-600 text-white text-2xl p-1 px-10 rounded-lg">Ya</button>
-                                                </form>
+                                        <div class="mt-6 flex justify-center gap-4">
+                                            <button type="button" onclick="showPopUpDelete({{ $index }})" class="bg-gray-400 text-white py-2 px-6 rounded hover:bg-gray-500">Tidak</button>
+                                            <form action="{{ route('delete-kasir') }}" method="POST">
+                                                @csrf
+                                                @method('put')
+                                                <input type="hidden" name="id" value="{{ $cashier->cashier->user_id }}">
+                                                <button type="submit" class="bg-red-500 text-white py-2 px-6 rounded hover:bg-red-600">Ya</button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
                                 {{-- Pop up konfirmasi hapus end --}}
 
-                                {{-- MODAL EDIT KASIR START --}}
-                                <div class="top-0 left-0 hidden flex flex-col justify-center items-center absolute z-10 backdrop-blur-sm backdrop-brightness-75 rounded-xl w-full h-screen"
-                                    id="popupEdit{{ $index }}">
-                                    <div class="w-fit flex flex-col justify-center">
-                                        <div class="bg-mainColor text-white font-semibold px-10 py-4 rounded-t-xl flex justify-between">
-                                            Edit Kasir
-                                            <button onclick="showPopUpEdit({{ $index }})">
-                                            <i class="fa-solid fa-xmark fa-xl" style="color: white"></i>
+                               {{-- MODAL EDIT KASIR START --}}
+                        <div class="top-0 left-0 hidden flex justify-center items-center absolute z-10 backdrop-blur-sm backdrop-brightness-50 w-full h-full" id="popupEdit{{ $index }}" style="position: fixed">
+                            <div class="w-full max-w-lg p-6 bg-gradient-to-tl from-indigo-600 to-blue-400 rounded-xl shadow-2xl">
+                                <!-- Header -->
+                                <div class="bg-white p-4 rounded-t-xl flex justify-between items-center text-gray-800 shadow-lg">
+                                    <span class="font-bold text-lg">Edit Kasir</span>
+                                    <button onclick="showPopUpEdit({{ $index }})" class="text-gray-700 text-xl">
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Form Content -->
+                                <div class="p-6 space-y-6 bg-white rounded-b-xl shadow-lg">
+                                    <form action="{{ route('edit-kasir', ['id' => $cashier->cashier->cashier_id]) }}" method="post">
+                                        @csrf
+                                        @method('put')
+                                        <!-- Form Fields -->
+                                        <div class="space-y-5">
+                                            <div class="flex flex-col space-y-2">
+                                                <label for="username" class="text-sm font-medium text-gray-600">Nama User</label>
+                                                <input type="text" value="{{ $cashier->username }}" readonly class="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm text-slate-400">
+                                            </div>
+
+                                            <div class="flex flex-col space-y-2">
+                                                <label for="email" class="text-sm font-medium text-gray-600">Email</label>
+                                                <input type="email" name="email" value="{{ $cashier->email }}" class="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm text-slate-400 @error('email') is-invalid @enderror" readonly>
+                                                @error('email')
+                                                    <div class="text-xs text-red-500 mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+
+                                            <div class="flex flex-col space-y-2">
+                                                <label for="gender" class="text-sm font-medium text-gray-600">Gender</label>
+                                                <select class="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm" name="gender">
+                                                    <option value="pria" {{ $cashier->cashier->cashier_gender == 'pria' ? 'selected' : '' }}>Pria</option>
+                                                    <option value="wanita" {{ $cashier->cashier->cashier_gender == 'wanita' ? 'selected' : '' }}>Wanita</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="flex flex-col space-y-2">
+                                                <label for="nohp" class="text-sm font-medium text-gray-600">No. Handphone</label>
+                                                <input type="text" name="nohp" value="{{ $cashier->cashier->cashier_phone }}" class="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm">
+                                            </div>
+
+                                            <div class="flex flex-col space-y-2">
+                                                <label for="address" class="text-sm font-medium text-gray-600">Alamat</label>
+                                                <textarea name="address" class="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm h-28 @error('address') is-invalid @enderror">{{ $cashier->cashier->cashier_address }}</textarea>
+                                                @error('address')
+                                                    <div class="text-xs text-red-500 mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+
+                                        <!-- Submit Button -->
+                                        <div class="mt-6 flex justify-end">
+                                            <button type="submit" class="px-6 py-3 bg-indigo-600 text-white rounded-lg shadow-lg hover:bg-indigo-700 transition duration-300">
+                                                Edit Kasir
                                             </button>
                                         </div>
-                                        <div class="bg-white p-7 pt-4 rounded-b-xl">
-                                            <form action="{{ route('edit-kasir',['id'=> $cashier->cashier->cashier_id]) }}" method="post">
-                                                @csrf
-                                                @method('put')
-                                                <div class="flex gap-6 p-4">
-                                                    <table>
-                                                        <tr>
-                                                            <td class="py-5">
-                                                                <label for="namaUser">Nama User</label>
-                                                            </td>
-                                                            <td class="ps-5">
-                                                                <input type="text" value="{{ $cashier->username }}" readonly class="p-2 px-4 rounded-xl shadow border text-slate-400">
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="py-5">
-                                                                <label for="email">Email</label>
-                                                            </td>
-                                                            <td class="ps-5">
-                                                                <input type="text" name="email" value="{{ $cashier->email }}" class="p-2 px-4 rounded-xl shadow text-slate-400 border  @error('email') is-invalid @enderror" readonly>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="py-5">
-                                                                <label for="gender">Gender</label>
-                                                            </td>
-                                                            <td class="ps-5">
-                                                                <select class="p-2 px-4 rounded-xl shadow border" name="gender" id="">
-                                                                    <option value="pria" {{ $cashier->cashier->cashier_gender == 'pria' ? 'selected' : '' }}>Pria</option>
-                                                                    <option value="wanita" {{ $cashier->cashier->cashier_gender == 'wanita' ? 'selected' : '' }}>Wanita
-                                                                    </option>
-                                                                </select>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="py-5">
-                                                                <label for="nohp">No. Handphone</label>
-                                                            </td>
-                                                            <td class="ps-5">
-                                                                <input type="text" name="nohp" class="p-2 px-4 rounded-xl shadow border" required value="{{ $cashier->cashier->cashier_phone }}">
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="py-5">
-                                                                <label for="alamatKasir">Alamat</label>
-                                                            </td>
-                                                            <td class="ps-5">
-                                                                <textarea name="address" class="p-2 px-4 rounded-xl shadow border h-28 @error('address') is-invalid @enderror" placeholder="{{ $cashier->cashier->cashier_address }}">
-                                                                    {{ $cashier->cashier->cashier_address }}
-                                                                </textarea>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                                <div class="flex justify-end">
-                                                    <button type="submit"
-                                                        class="p-2 px-6 me-4 bg-secondaryColor text-white font-semibold rounded-lg">Edit</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
+                                    </form>
                                 </div>
-                                {{-- MODAL EDIT KASIR END --}}
-                            @php 
-                            $i++;
-                            $index++;
-                            @endphp
-                            @endforeach
-                        </td>
-                    </tr>  
-                </tbody>
-            </table> 
+                            </div>
+                        </div>
+                        {{-- MODAL EDIT KASIR END --}}
+                            </td>
+                        </tr>
+                        @php 
+                        $i++;
+                        $index++;
+                        @endphp
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
-        </div>
-    </main>
+        </main>
+    </div>
 
     {{-- DATATABLES SCRIPT --}}
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
     <script src="{{ asset('js/datatables.js') }}"></script>
 
     <script>
         const showPopUpDelete = (index) => {
-            const popup = document.getElementById('popupHapus'+ index);
-
-            if (popup.classList.contains('hidden')) {
-                popup.classList.remove('hidden')
-            } else {
-                popup.classList.add('hidden')
-            }
+            const popup = document.getElementById('popupHapus' + index);
+            popup.classList.toggle('hidden');
         }
 
         const showPopUpEdit = (index) => {
-            const popup = document.getElementById('popupEdit'+ index);
-
-            if (popup.classList.contains('hidden')) {
-                popup.classList.remove('hidden')
-            } else {
-                popup.classList.add('hidden')
-            }
+            const popup = document.getElementById('popupEdit' + index);
+            popup.classList.toggle('hidden');
         }
 
         const showPopUpTambah = () => {
             const popup = document.getElementById('popupTambah');
-
-            if (popup.classList.contains('hidden')) {
-                popup.classList.remove('hidden')
-            } else {
-                popup.classList.add('hidden')
-            }
+            popup.classList.toggle('hidden');
         }
     </script>
 </body>

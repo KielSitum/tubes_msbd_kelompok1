@@ -92,7 +92,7 @@
                     @php
                         $total = 0;
                     @endphp
-                    @foreach ($invoice->buyingInvoiceDetail as $product)
+                    @foreach ($invoice->invoiceBuyingDetail as $product)
                     @php
                         $total += $product->product_buy_price * $product->quantity;
                     @endphp
@@ -132,12 +132,8 @@
             <div class="bg-black text-white flex justify-between w-[90%] px-16 py-8">
                 <div class="flex flex-col justify-center w-3/5">
                     <p class="text-xl tracking-widest font-bold">Toko Obat Subur Tigarunggu</p>
-                    <p class="text-md font-semibold">CP : 0812-3456-7890 (Aliong)</p>
                 </div>
-                
-                <div class="w-2/5">
-                    <p>Jl. Prof. H. M. Yamin No.116, Sidodadi, Kec. Medan Timur, Kota Medan, Sumatera Utara 20233</p>
-                </div>
+
             </div>
         </footer>
 

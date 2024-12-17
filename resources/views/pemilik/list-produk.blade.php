@@ -14,93 +14,84 @@
 
     {{-- DATATABLES --}}
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-    {{-- <style>
-        *{
-            border: 2px red solid;
-        }
-    </style> --}}
 </head>
 
-<body class="font-Inter relative">
-    @include('pemilik.components.sidebar')
-    <main class="p-10 font-Inter bg-plat min-h-[100vh] h-full" id="mainContent">
-        @include('pemilik.components.navbar')
+<body class="font-Inter bg-gray-100">
+    <div class="flex">
+        @include('pemilik.components.sidebar')
 
-        <div class="flex flex-col gap-8 mt-10">
-            <div class="md:flex justify-between">
-                <p class="text-3xl font-bold mb-2">List Produk</p>
+        <main class="flex-grow p-8 font-Inter bg-white shadow-lg rounded-lg m-4" id="mainContent">
+            @include('pemilik.components.navbar')
 
-                @if (session('add_status'))
-                    <div class="absolute top-4 left-[42.5vw] bg-mainColor shadow-md w-[25vw] h-14 z-20 gap-2 items-center px-4 animate-notif opacity-0 justify-center rounded-md flex unselectable">
-                        <i class="text-white fa-solid fa-circle-check"></i>
-                        <p class="text-lg text-white font-semibold"> {{ session('add_status') }} </p>
-                    </div>
-                @endif
-                @if (session('error_status'))
-                    <div class="absolute top-4 left-[42.5vw] bg-red-600 shadow-md w-[15vw] h-14 z-20 gap-2 items-center px-4 animate-notif opacity-0 justify-center rounded-md flex unselectable">
-                        <i class="text-white fa-solid fa-triangle-exclamation"></i>
-                        <p class="text-lg text-white font-semibold"> {{ session('error_status') }} </p>
-                    </div>
-                @endif
+            <div class="mb-6">
+                <h1 class="text-4xl font-bold text-mainColor">List Produk</h1>
+                <p class="text-gray-600">Kelola data produk dengan mudah.</p>
+            </div>
 
-                <a href="{{ route('add-product') }}" class="px-6 py-2.5 rounded-lg bg-mainColor text-white font-semibold">
+            @if (session('add_status'))
+                <div class="fixed top-6 left-1/2 transform -translate-x-1/2 bg-green-500 text-white rounded-lg shadow-lg py-3 px-6 animate-bounce">
+                    <i class="fa-solid fa-circle-check mr-2"></i>{{ session('add_status') }}
+                </div>
+            @elseif (session('error_status'))
+                <div class="fixed top-6 left-1/2 transform -translate-x-1/2 bg-red-500 text-white rounded-lg shadow-lg py-3 px-6 animate-bounce">
+                    {{ session('error_status') }}
+                </div>
+            @endif
+
+            <div class="flex justify-between mb-4">
+                <a href="{{ route('add-product') }}" class="px-6 h-12 py-2.5 rounded-lg bg-mainColor text-white font-semibold">
                     <i class="fa-solid fa-plus pe-2"></i>
                     Tambah Produk
                 </a>
             </div>
 
-                <div class="bg-white rounded-lg p-4 shadow-md overflow-x-auto">
-                    <table id="myTable" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Nama Produk</th>
-                                <th>Stok</th>
-                                <th>Tanggal Expired</th>
-                                <th>Status Obat</th>
-                                <th>Detail Obat</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php
-                                $i = 1;
-                            @endphp
-                            @foreach ($product as $item)
-                                
-                            <tr>
-                                <td>{{$i++}}</td>
-                                <td>
-                                    <span class="font-bold">{{ $item->product_name }}</span>
-                                </td>
+            <div class="bg-gray-50 rounded-lg shadow p-6">
+                <table id="myTable" class="min-w-full bg-white border border-gray-200 rounded-lg">
+                    <thead class="bg-mainColor text-white">
+                        <tr>
+                            <th class="py-3 px-6 text-left">No</th>
+                            <th class="py-3 px-6 text-left">Nama Produk</th>
+                            <th class="py-3 px-6 text-left">Stok</th>
+                            <th class="py-3 px-6 text-left">Tanggal Expired</th>
+                            <th class="py-3 px-6 text-left">Status Obat</th>
+                            <th class="py-3 px-6 text-center">Detail Obat</th>
+                            <th class="py-3 px-6 text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php
+                            $i = 1;
+                        @endphp
+                        @foreach ($product as $item)
+                            <tr class="border-b hover:bg-gray-100">
+                                <td class="py-3 px-6">{{ $i++ }}</td>
+                                <td class="py-3 px-6 font-bold">{{ $item->product_name }}</td>
                                 @php
-                                    $carbonDate = \Carbon\Carbon::parse( $item->detail()->where('product_stock', '>', 0)->orderBy('product_expired')->first()->product_expired);
+                                    $carbonDate = \Carbon\Carbon::parse($item->detail()->where('product_stock', '>', 0)->orderBy('product_expired')->first()->product_expired);
                                     $formattedDate = $carbonDate->format('j F Y');
                                 @endphp
-                                <td>{{ $item->detail->sum('product_stock') }}</td>
-                                <td>{{ $formattedDate }}</td>
-                                <td>
-                                    {{ $item->product_status }}
-                                </td>
-                                <td>
+                                <td class="py-3 px-6">{{ $item->detail->sum('product_stock') }}</td>
+                                <td class="py-3 px-6">{{ $formattedDate }}</td>
+                                <td class="py-3 px-6">{{ $item->product_status }}</td>
+                                <td class="py-3 px-6 text-center">
                                     <a href="{{ route('product-detail',['id'=> $item->product_id]) }}"
-                                    class="border-2 border-secondaryColor rounded-md hover:bg-transparent hover:text-secondaryColor font-bold px-4 py-1 bg-secondaryColor text-white duration-300 transition-colors ease-in-out">
-                                    Lihat
-                                </a>
-                            </td>
-                                <td>
+                                       class="border-2 border-secondaryColor rounded-md hover:bg-transparent hover:text -secondaryColor font-bold px-4 py-1 bg-secondaryColor text-white duration-300 transition-colors ease-in-out">
+                                        Lihat
+                                    </a>
+                                </td>
+                                <td class="py-3 px-6 text-center">
                                     <a href="{{ route('product-edit',['id'=> $item->product_id]) }}" class="p-2 bg-secondaryColor rounded mx-2"><i
                                         class="fa-regular fa-pen-to-square" style="color: white;"></i></a>
                                     <a href="{{ route('add-product-batch',['id'=> $item->product_id]) }}" class="p-2 bg-green-700 rounded mx-2"><i
                                         class="fa-solid fa-plus" style="color: white;"></i></a>
-                                        
-                                    </tr>
-                            @endforeach            
-                        </tbody>
-                    </table>
-                </div>
-        </div>
-    </main>
+                                </td>
+                            </tr>
+                        @endforeach            
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
 
     {{-- DATATABLES SCRIPT --}}
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
@@ -109,25 +100,14 @@
     <script>
         const showPopUpDelete = () => {
             const popup = document.getElementById('popup');
-
-            if (popup.classList.contains('hidden')) {
-                popup.classList.remove('hidden')
-            } else {
-                popup.classList.add('hidden')
-            }
+            popup.classList.toggle('hidden');
         }
 
         const toggleDetail = () => {
             const modal = document.getElementById('detailModal');
-
-            if (modal.classList.contains('hidden')) {
-                modal.classList.remove('hidden')
-                document.body.classList.add('h-[100vh]')
-            } else {
-                modal.classList.add('hidden')
-                document.body.classList.remove('h-[100vh]')
-            }
+            modal.classList.toggle('hidden');
+            document.body.classList.toggle('h-[100vh]');
         }
-    </script>   
+    </script>
 </body>
 </html>
