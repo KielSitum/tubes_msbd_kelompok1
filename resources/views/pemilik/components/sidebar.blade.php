@@ -71,13 +71,6 @@
     </div>
 
     <div class="overflow-x-hidden text-white my-4" style="transition: 0.3s;">
-        <a href="/owner/log" class="flex items-center text-lg hover:bg-blue-400 py-2 px-6 rounded-lg transition-all">
-            <i class="fa-regular fa-folder-open me-3"></i>
-            <p>Log</p>
-        </a>
-    </div>
-
-    <div class="overflow-x-hidden text-white my-4" style="transition: 0.3s;">
         <a href="/owner/promo" class="flex items-center text-lg hover:bg-blue-400 py-2 px-6 rounded-lg transition-all">
             <i class="fa-regular fa-folder-open me-3"></i>
             <p>Promo</p>

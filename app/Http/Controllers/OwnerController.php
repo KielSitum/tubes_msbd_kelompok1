@@ -15,7 +15,6 @@ use App\Models\DeskripsiProduk;
 use App\Models\DetailProduk;
 use App\Models\Produk;
 use App\Models\Supplier;
-use App\Models\Log;
 use App\Models\PromoDiskon;
 
 use Carbon\Carbon;
@@ -598,15 +597,6 @@ class OwnerController extends Controller
         DB::rollBack();
         return redirect()->back()->with('error_status', 'Pesanan tidak ditemukan.');
         }
-    }
-
-    public function display_log()
-    {
-        $logs = Log::on('owner')->get();
-        return view('pemilik.log',[
-            'logs' => $logs,
-            'total' => $this->total_pesanan_online()
-        ]);
     }
 
     public function promo_diskon()
