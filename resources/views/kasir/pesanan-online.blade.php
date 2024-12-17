@@ -21,6 +21,45 @@
         #mainContent {
             margin-left: 14%; /* Memberi ruang agar tidak tertimpa sidebar */
         }
+        /* Estetika Tabel Riwayat Pesanan */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        table.order-history {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        table.order-history thead {
+            background-color: #1A8889;
+            color: #ffffff;
+            text-transform: uppercase;
+        }
+
+        table.order-history th, table.order-history td {
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table.order-history tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        table.order-history tr:hover {
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+        
+
     </style>
 </head>
 <body class="font-Inter relative">

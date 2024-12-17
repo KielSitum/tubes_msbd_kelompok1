@@ -13,11 +13,11 @@
     <script src="https://kit.fontawesome.com/1fc4ea1c6a.js" crossorigin="anonymous"></script>
 </head>
 
-<body class="font-Inter bg-semiWhite">
+<body class="font-Inter bg-semiWhite h-screen flex justify-center items-center">
     @include('user.components.navbar')
 
     <div class="flex justify-center py-10">
-        <div class="w-[80vw] flex gap-10">
+        <div class="w-full max-w-6xl flex gap-10 p-6">
             <!-- Form (Now on the left) -->
             <form action="/booking" method="post" enctype="multipart/form-data" 
             class="w-[40%] bg-white p-8 rounded-xl shadow-md flex flex-col gap-6 border border-gray-300">
@@ -64,11 +64,13 @@
                 
                 <input type="hidden" name="total" value="{{ $jumlah }}" />
 
-                <!-- Submit -->
-                <button type="submit" 
-                        class="bg-[#3498db] h-12 w-full text-xl font-bold text-white rounded-2xl">
-                    Bayar
-                </button>
+<!-- Submit Button -->
+<button type="submit" 
+        class="bg-[#3498db] h-12 w-full text-xl font-bold text-white rounded-2xl shadow-md 
+               hover:bg-[#2e86c1] hover:shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out">
+    Bayar
+</button>
+
             </form>
 
             <!-- Cart Details (Now on the right) -->

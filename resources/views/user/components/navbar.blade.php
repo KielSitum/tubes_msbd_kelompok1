@@ -21,7 +21,7 @@
                     <!-- Dropdown Menu -->
                     <div id="dropdownMenu" class="dropdown-menu hidden">
                         <a href="/user-profile" class="dropdown-item">Profile</a>
-                        <form action="/logout" method="POST">
+                        <form action="/logout" method="POST" class="w-full">
                             @csrf
                             <button type="submit" class="dropdown-item">Logout</button>
                         </form>
@@ -29,10 +29,6 @@
                 </div>
                 @elseif (auth()->user()->role == 'cashier' || auth()->user()->role == 'owner')
                 <a href="/{{ auth()->user()->role }}" class="btn-primary">Dashboard</a>
-                <form action="/logout" method="POST" class="inline">
-                    @csrf
-                    <button type="submit" class="btn-danger">Logout</button>
-                </form>
                 @endif
             @endguest
         </div>
@@ -42,10 +38,6 @@
 <!-- Space for fixed navbar -->
 <div class="h-16"></div>
 
-<!-- Scroll to Top Button -->
-<button id="scrollTopBtn" class="scroll-top-btn hidden" onclick="scrollToTop()">
-    <i class="fa-solid fa-arrow-up"></i>
-</button>
 
 <script>
     // Toggle Profile Dropdown
@@ -103,7 +95,7 @@
 
     .menu-link {
         font-size: 1rem;
-        color: #3498db;
+        color: #000000;
         font-weight: 600;
         text-decoration: none;
         transition: color 0.3s;
@@ -111,7 +103,8 @@
     }
 
     .menu-link:hover {
-        color: #2980b9;
+        background-color: #2980b9;
+        color: #ffeaa3;
     }
 
     /* Button Styles */
@@ -192,6 +185,8 @@
         text-decoration: none;
         transition: background-color 0.3s, color 0.3s;
         font-family: 'Poppins', sans-serif;
+        width: 100%; /* Pastikan elemen mengambil seluruh lebar kontainer */
+        text-align: left; /* Posisi teks tetap rata kiri */
     }
 
     .dropdown-item:hover {

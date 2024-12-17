@@ -36,6 +36,7 @@
             font-size: 2.5rem;
             font-weight: 700;
             color: #000000;
+            margin-top: 30px;
             margin-bottom: 20px;
         }
 
@@ -47,13 +48,14 @@
             width: 100%;
             max-width: 1200px;
             margin: 20px auto;
+            justify-content: center;
         }
 
         /* Card Style for Product */
         .product-card {
             background: white;
             border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -63,17 +65,19 @@
             max-width: 350px;
             width: 100%;
             box-sizing: border-box;
+            margin: 0;
+            padding: 10px;
         }
 
         .product-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+            transform: translateY(-3px); /* Naik sedikit */
+            box-shadow: 0 12px 15px -5px rgba(0, 0, 0, 0.3);
         }
 
         .product-img {
             width: 100%;
             height: 200px;
-            object-fit: cover;
+            object-fit: contain;
         }
 
         .product-name {
@@ -81,6 +85,13 @@
             font-weight: 700;
             color: #2c3e50;
             margin: 10px 0;
+            text-align: center;
+            padding: 5px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            text-align: center;
         }
 
         .product-price {
@@ -136,22 +147,28 @@
 
         /* Styling untuk Search Bar */
         .search-bar-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            max-width: 600px;
-            margin-bottom: 20px;
-        }
+        display: flex;
+        align-items: center;
+        background-color: #d7ebff; /* Warna biru muda */
+        border: 2px solid #87cfff; /* Biru lebih terang */
+        border-radius: 15px; /* Membuat sudut membulat */
+        padding: 5px; /* Jarak dari dalam */
+        width: 100%;
+        max-width: 600px; /* Sesuaikan lebar maksimal */
+        margin: 0 auto 20px; /* Tengah dan beri margin bawah */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Efek shadow */
+    }
+
 
         .search-input {
             width: calc(100% - 60px); /* Menyisakan ruang untuk tombol */
             padding: 10px 15px;
             font-size: 1rem;
-            border-radius: 25px 0 0 25px;
+            border-radius: 15px 15px 15px 15px;
             border: 2px solid #3498db;
             outline: none;
             transition: border-color 0.3s ease;
+            flex: 1;
         }
 
         .search-input:focus {
@@ -162,7 +179,7 @@
             padding: 10px 15px;
             background-color: #3498db;
             color: white;
-            border-radius: 0 25px 25px 0;
+            border-radius: 15px 15px 15px 15px;
             border: none;
             cursor: pointer;
             transition: background-color 0.3s;
@@ -178,7 +195,7 @@
     @include('user.components.navbar')
 
     <div class="main-container">
-        <h1>Produk Tersedia</h1>
+        <h1 >Produk Tersedia</h1>
 
         <!-- Search Bar -->
         <div class="search-bar-container">
@@ -236,6 +253,7 @@
     </div>
 
     @livewireScripts
+
 </body>
 
 </html>
