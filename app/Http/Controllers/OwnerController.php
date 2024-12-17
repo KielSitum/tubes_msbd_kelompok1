@@ -455,9 +455,7 @@ class OwnerController extends Controller
         ]);
         
         DB::beginTransaction();
-        try{
-            DB::connection('owner')->select('CALL insert_log(?, ?, ?, ?, ?, ?)', array($request->nama_supplier, auth()->user()->username, 'supplier', 'insert', '-', $request->nama_supplier));
-            
+        try{            
             $new_supplier = new Supplier;
             $new_supplier -> supplier_id = Str::uuid();
             $new_supplier -> supplier = $request->nama_supplier;
@@ -576,8 +574,6 @@ class OwnerController extends Controller
 
         DB::beginTransaction();
         try{
-            DB::connection('owner')->select('CALL insert_log(?, ?, ?, ?, ?, ?)', array($request->username, auth()->user()->username, 'cashier', 'insert', '-', $request->username));
-
             $new_user = new User;
             $uuid = Str::uuid();
     
@@ -603,7 +599,7 @@ class OwnerController extends Controller
 
             return redirect('/owner/kasir')->with('error_status','Terjadi Kesalahan');
         }
-    }
+    }   
     
     public function editKasir(Request $request,$id)
     {

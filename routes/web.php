@@ -121,7 +121,6 @@ Route::middleware(['auth', 'verified', 'cekRole:owner'])->prefix('owner')->group
     Route::put('edit-kasir/{id}', [OwnerController::class,'editKasir'])->name('edit-kasir');
     Route::post('tambah-kasir', [OwnerController::class,'tambahKasir'])->name('tambah-kasir');
     Route::put('delete-kasir', [OwnerController::class,'deleteKasir'])->name('delete-kasir');
-    
     Route::get('transaksi-penjualanan', [OwnerController::class,'log_penjualanan'])->name('list-selling-transaction');
     
     Route::get('transaksi-pembelian', [OwnerController::class,'log_pembelian'])->name('list-buying-transaction');
