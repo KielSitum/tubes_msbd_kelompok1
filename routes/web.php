@@ -54,6 +54,7 @@ Route::get('/cara-belanja', function () {
 Route::middleware(['auth', 'verified', 'cekRole:user'])->group(function () {
     Route::get('/user-profile', [UserController::class, 'profile'])->name('profile-user');
     Route::post('/user-profile', [UserController::class, 'ubah'])->name('change-profile');
+    Route::post('/user-profile/password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
     Route::post('/hapus-akun', [UserController::class, 'hapus'])->name('delete-profile');
 
     Route::get('/riwayat-pesanan', [UserController::class,'riwayatTransaksi'])->name('riwayat-transaksi');

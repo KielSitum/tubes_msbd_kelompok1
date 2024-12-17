@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -57,4 +58,27 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    public function updatePassword(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'current_password' => ['required'],
+            'new_password' => ['required', 'min:8', 'confirmed'],
+        ]);
+
+        $user = $request->user();
+
+        // Verifikasi kata sandi lama
+        if (!Hash::check($request->current_password, $user->password)) {
+            return Redirect::back()->withErrors(['current_password' => 'Kata sandi lama tidak sesuai.']);
+        }
+
+        // Update kata sandi baru
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return Redirect::back()->with('success_password', 'Kata sandi berhasil diperbarui.');
+    }
+
 }

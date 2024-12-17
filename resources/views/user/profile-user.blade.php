@@ -105,57 +105,48 @@
                     {{-- UBAH DATA MODAL END --}}
                 </form>
     
-                <!-- Ubah Kata Sandi Form -->
-                <form action="/user-profile" method="POST"
-                class="w-full h-fit px-10 py-5 border-2 rounded-md border-gray-300 flex flex-col items-center gap-5">
-                    @csrf
-                    <input type="hidden" name="update" value="password">
-                    <p class="text-2xl font-semibold text-gray-800">Ubah Kata Sandi</p>
-    
-                    @if (session()->has('success_password'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <p class="text-sm text-green-600 p-0 m-0 text-center">{{ session('success_password') }}</p>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    @endif
-    
-                    @if (session()->has('error'))
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <p class="text-sm text-red-500 p-0 m-0 text-center">{{ session('error') }}</p>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    @endif
-    
-                    <div class="flex flex-col w-full gap-3">
-                        <label for="current_password">Password Lama :</label>
-                        <input type="password" name="current_password" id="current_password" placeholder="Password Lama"
-                        class="border-2 h-12 px-4 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        @error('current_password')
-                        <div class="text-sm text-red-500 mt-1 ms-3 mb-0 text-left">
-                            {{ $message }}
-                        </div>
-                        @enderror
-                    </div>
-    
-                    <div class="flex flex-col w-full gap-3">
-                        <label for="new_password">Password Baru :</label>
-                        <input type="password" name="new_password" id="new_password" placeholder="Password Baru"
-                        class="border-2 h-12 px-4 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        @error('new_password')
-                        <div class="text-sm text-red-500 mt-1 ms-3 mb-0 text-left">
-                            {{ $message }}
-                        </div>
-                        @enderror
-                    </div>
-    
-                    <div class="flex flex-col w-full gap-3">
-                        <label for="new_password_confirmation">Konfirmasi Password Baru :</label>
-                        <input type="password" name="new_password_confirmation" id="new_password_confirmation" placeholder="Konfirmasi Password Baru"
-                        class="border-2 h-12 px-4 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    </div>
-    
-                    <button type="submit" class="w-fit bg-blue-500 px-5 py-2 font-semibold text-lg text-white rounded-lg shadow-md hover:bg-blue-600 transition duration-300">Ubah Kata Sandi</button>
-                </form>
+                <form action="{{ route('profile.update-password') }}" method="POST"
+      class="w-full h-fit px-10 py-5 border-2 rounded-md border-gray-300 flex flex-col items-center gap-5">
+    @csrf
+    <p class="text-2xl font-semibold text-gray-800">Ubah Kata Sandi</p>
+
+    @if (session()->has('success_password'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <p class="text-sm text-green-600 p-0 m-0 text-center">{{ session('success_password') }}</p>
+        </div>
+    @endif
+
+    @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @foreach ($errors->all() as $error)
+                <p class="text-sm text-red-500 p-0 m-0 text-center">{{ $error }}</p>
+            @endforeach
+        </div>
+    @endif
+
+    <div class="flex flex-col w-full gap-3">
+        <label for="current_password">Password Lama :</label>
+        <input type="password" name="current_password" id="current_password" placeholder="Password Lama"
+               class="border-2 h-12 px-4 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
+    </div>
+
+    <div class="flex flex-col w-full gap-3">
+        <label for="new_password">Password Baru :</label>
+        <input type="password" name="new_password" id="new_password" placeholder="Password Baru"
+               class="border-2 h-12 px-4 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
+    </div>
+
+    <div class="flex flex-col w-full gap-3">
+        <label for="new_password_confirmation">Konfirmasi Password Baru :</label>
+        <input type="password" name="new_password_confirmation" id="new_password_confirmation" placeholder="Konfirmasi Password Baru"
+               class="border-2 h-12 px-4 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
+    </div>
+
+    <button type="submit" class="w-fit bg-blue-500 px-5 py-2 font-semibold text-lg text-white rounded-lg shadow-md hover:bg-blue-600 transition duration-300">
+        Ubah Kata Sandi
+    </button>
+</form>
+
             </div>
         </div>
     </div>
