@@ -192,129 +192,129 @@
         <p class="product-title">{{ $product->product_name }}</p>
 
         {{-- Detail Produk --}}
-        @foreach ($product->detail as $detail)
-            <div class="product-container">
-                <div class="sm:flex sm:grid-cols-3 md:gap-20 gap-3">
-                    {{-- Gambar Obat --}}
-                    <div class="sm:w-1/3 mb-7">
-                        @if (file_exists(public_path('storage/gambar-obat/' . $product->description->product_photo)) && $product->description->product_photo !== NULL)
-                            <img src="{{ asset('storage/gambar-obat/' . $product->description->product_photo) }}" alt="">
-                        @else
-                            <img src="{{ asset('img/Pencernaan.png') }}" alt="">
-                        @endif
-                    </div>
+        @php
+            $latestDetail = $product->detail->last();  // Menampilkan hanya detail produk terbaru
+            $carbonDate = \Carbon\Carbon::parse($latestDetail->product_expired);
+            $formattedDate = $carbonDate->format('j F Y');
+        @endphp
 
-                    {{-- Detail Obat --}}
-                    <div class="sm:w-2/3">
-                        <table class="product-details-table">
-                            <tr>
-                                <td>Status Obat</td>
-                                <td>{{ $product->product_status }}</td>
-                            </tr>
-                            @php
-                                $carbonDate = \Carbon\Carbon::parse($detail->product_expired);
-                                $formattedDate = $carbonDate->format('j F Y');
-                            @endphp
-                            <tr>
-                                <td>Expired Obat</td>
-                                <td>{{ $formattedDate }}</td>
-                            </tr>
-                            <tr>
-                                <td>Stok Obat</td>
-                                <td>{{ $detail->product_stock }}</td>
-                            </tr>
-                            <tr>
-                                <td>Tipe Obat</td>
-                                <td>{{ $product->description->product_type }}</td>
-                            </tr>
-                            <tr>
-                                <td>Harga Beli Obat</td>
-                                <td>{{ number_format($detail->product_buy_price,0, ',', '.') }}</td>
-                            </tr>
-                            <tr>
-                                <td>Harga Jual Obat</td>
-                                <td>{{ number_format($product->product_sell_price, 0, ',', '.') }}</td>
-                            </tr>
-                            <tr>
-                                <td>Kategori Obat</td>
-                                <td>{{ $product->description->category->category }}</td>
-                            </tr>
-                            <tr>
-                                <td>Golongan Obat</td>
-                                <td>{{ $product->description->group->group }}</td>
-                            </tr>
-                            <tr>
-                                <td>Satuan Obat</td>
-                                <td>{{ $product->description->unit->unit }}</td>
-                            </tr>
-                            <tr>
-                                <td>NIE Obat</td>
-                                <td>{{ $product->description->product_DPN }}</td>
-                            </tr>
-                            <tr>
-                                <td>Pemasok Obat</td>
-                                <td>{{ $product->description->supplier->supplier }}</td>
-                            </tr>
-                            <tr>
-                                <td>Produksi Dari</td>
-                                <td>{{ $product->description->product_manufacture }}</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-
-                {{-- Deskripsi Obat --}}
-                <div class="product-description">
-                    <p class="section-title">Deskripsi Obat:</p>
-                    <p class="section-content">{{ $product->description->product_description }}</p>
-                </div>
-
-                {{-- Dosis Obat --}}
-                <div class="product-description">
-                    <p class="section-title">Dosis Obat:</p>
-                    <p class="section-content">{{ $product->description->product_dosage }}</p>
-                </div>
-
-                {{-- Peringatan Obat --}}
-                @if ($product->description->product_notice != NULL)
-                    <div class="product-description">
-                        <p class="section-title">Peringatan Obat:</p>
-                        <p class="section-content">{{ $product->description->product_notice }}</p>
-                    </div>
-                @endif
-
-                {{-- Efek Samping Obat --}}
-                <div class="product-description">
-                    <p class="section-title">Efek Samping Obat:</p>
-                    <p class="section-content">{{ $product->description->product_sideEffect }}</p>
-                </div>
-
-                {{-- Indikasi Umum Obat --}}
-                @if ($product->description->product_indication != NULL)
-                    <div class="product-description">
-                        <p class="section-title">Indikasi Umum Obat:</p>
-                        <p class="section-content">{{ $product->description->product_indication }}</p>
-                    </div>
-                @endif
-
-                {{-- Tombol Hapus Produk Expired --}}
-                @if (\Carbon\Carbon::parse($detail->product_expired)->lte(\Carbon\Carbon::now()->addMonths(3)))
-                    @if ($detail->where('product_id', $detail->product_id)->count() > 1)
-                        <form action="{{ route('hapus-expired') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="detail_id" value="{{ $detail->detail_id }}">
-                            <button type="submit" class="remove-expired-btn">Hapus Produk Expired</button>
-                        </form>
-                    @elseif ($product->product_status == 'tidak aktif')
-                        <div class="flex mt-10">
-                            <p class="bg-red-500 ms-auto rounded-md px-5 py-2 font-bold text-white" style="margin-right:300px;">
-                                Silahkan Beli Obat Baru Untuk Membuka Status Obat Menjadi Aktif!
-                            </p>
-                        </div>
+        <div class="product-container">
+            <div class="sm:flex sm:grid-cols-3 md:gap-20 gap-3">
+                {{-- Gambar Obat --}}
+                <div class="sm:w-1/3 mb-7">
+                    @if (file_exists(public_path('storage/gambar-obat/' . $product->description->product_photo)) && $product->description->product_photo !== NULL)
+                        <img src="{{ asset('storage/gambar-obat/' . $product->description->product_photo) }}" alt="">
+                    @else
+                        <img src="{{ asset('img/demam.png') }}" alt="">
                     @endif
-                @endif
+                </div>
+
+                {{-- Detail Obat --}}
+                <div class="sm:w-2/3">
+                    <table class="product-details-table">
+                        <tr>
+                            <td>Status Obat</td>
+                            <td>{{ $product->product_status }}</td>
+                        </tr>
+                        <tr>
+                            <td>Expired Obat</td>
+                            <td>{{ $formattedDate }}</td>
+                        </tr>
+                        <tr>
+                            <td>Stok Obat</td>
+                            <td>{{ $product->detail->sum('product_stock') }}</td>
+                        </tr>
+                        <tr>
+                            <td>Tipe Obat</td>
+                            <td>{{ $product->description->product_type }}</td>
+                        </tr>
+                        <tr>
+                            <td>Harga Beli Obat</td>
+                            <td>{{ number_format($latestDetail->product_buy_price,0, ',', '.') }}</td>
+                        </tr>
+                        <tr>
+                            <td>Harga Jual Obat</td>
+                            <td>{{ number_format($product->product_sell_price, 0, ',', '.') }}</td>
+                        </tr>
+                        <tr>
+                            <td>Kategori Obat</td>
+                            <td>{{ $product->description->category->category }}</td>
+                        </tr>
+                        <tr>
+                            <td>Golongan Obat</td>
+                            <td>{{ $product->description->group->group }}</td>
+                        </tr>
+                        <tr>
+                            <td>Satuan Obat</td>
+                            <td>{{ $product->description->unit->unit }}</td>
+                        </tr>
+                        <tr>
+                            <td>NIE Obat</td>
+                            <td>{{ $product->description->product_DPN }}</td>
+                        </tr>
+                        <tr>
+                            <td>Pemasok Obat</td>
+                            <td>{{ $product->description->supplier->supplier }}</td>
+                        </tr>
+                        <tr>
+                            <td>Produksi Dari</td>
+                            <td>{{ $product->description->product_manufacture }}</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
-        @endforeach
+
+            {{-- Deskripsi Obat --}}
+            <div class="product-description">
+                <p class="section-title">Deskripsi Obat:</p>
+                <p class="section-content">{{ $product->description->product_description }}</p>
+            </div>
+
+            {{-- Dosis Obat --}}
+            <div class="product-description">
+                <p class="section-title">Dosis Obat:</p>
+                <p class="section-content">{{ $product->description->product_dosage }}</p>
+            </div>
+
+            {{-- Peringatan Obat --}}
+            @if ($product->description->product_notice != NULL)
+                <div class="product-description">
+                    <p class="section-title">Peringatan Obat:</p>
+                    <p class="section-content">{{ $product->description->product_notice }}</p>
+                </div>
+            @endif
+
+            {{-- Efek Samping Obat --}}
+            <div class="product-description">
+                <p class="section-title">Efek Samping Obat:</p>
+                <p class="section-content">{{ $product->description->product_sideEffect }}</p>
+            </div>
+
+            {{-- Indikasi Umum Obat --}}
+            @if ($product->description->product_indication != NULL)
+                <div class="product-description">
+                    <p class="section-title">Indikasi Umum Obat:</p>
+                    <p class="section-content">{{ $product->description->product_indication }}</p>
+                </div>
+            @endif
+
+            {{-- Tombol Hapus Produk Expired --}}
+            @if (\Carbon\Carbon::parse($latestDetail->product_expired)->lte(\Carbon\Carbon::now()->addMonths(3)))
+                @if ($latestDetail->where('product_id', $latestDetail->product_id)->count() > 1)
+                    <form action="{{ route('hapus-expired') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="detail_id" value="{{ $latestDetail->detail_id }}">
+                        <button type="submit" class="remove-expired-btn">Hapus Produk Expired</button>
+                    </form>
+                @elseif ($product->product_status == 'tidak aktif')
+                    <div class="flex mt-10">
+                        <p class="bg-red-500 ms-auto rounded-md px-5 py-2 font-bold text-white" style="margin-right:300px;">
+                            Silahkan Beli Obat Baru Untuk Membuka Status Obat Menjadi Aktif!
+                        </p>
+                    </div>
+                @endif
+            @endif
+        </div>
     </div>
 </body>
 

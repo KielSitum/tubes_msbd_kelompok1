@@ -10,269 +10,336 @@
 
     {{-- FONT AWESOME --}}
     <script src="https://kit.fontawesome.com/e87c4faa10.js" crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/1fc4ea1c6a.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa; /* Light grey background */
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #5cdc00;
+            padding-bottom: 10px;
+        }
+
+        .back-button {
+            background-color: #5cdc00;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 25px;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #5cdc00;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #343a40;
+        }
+
+        .form-container {
+            padding: 20px;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #495057;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            margin-top: 5px;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+        }
+
+        button {
+        background: linear-gradient(90deg, #28a745, #34d058); 
+        color: #ffffff; 
+        border: none;
+        border-radius: 8px; 
+        padding: 12px 24px; 
+        font-size: 16px;
+        font-weight: bold; 
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+        cursor: pointer;
+        transition: all 0.3s ease-in-out; 
+        }
+
+        button:hover {
+            background: linear-gradient(90deg, #14b236, #2db34a); 
+            box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15); 
+            transform: translateY(-3px);
+        }
+
+        button:focus {
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(34, 225, 79, 0.807); /* Efek fokus */
+        }
+
+        .text-mediumRed {
+            color: #dc3545;
+        }
+
+        .text-mediumGrey {
+            color: #6c757d;
+        }
+
+        .grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .grid-cols-1 {
+            grid-template-columns: 1fr;
+        }
+
+        .grid-cols-2 {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .grid-cols-4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .upload-container {
+            text-align: center;
+        }
+
+        .upload-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .upload-container button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+            padding: 8px;
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            color: #ffffff;
+        }
+
+        .upload-container button:hover {
+            background-color: #e9ecef;
+        }
+
+        .error-text {
+            font-size: 12px;
+            color: #dc3545;
+            margin-top: 4px;
+        }
+    </style>
 </head>
 
-<body class="font-Trip bg-[#DEDEDE]">
-    
-    <div class="flex flex-col mb-8">
-        <div class="p-10 flex flex-col">
-            {{-- back button --}}
-            <a href="/owner/produk" class="p-3 px-4 rounded-full bg-mainColor w-fit">
-                <i class="fa-solid fa-arrow-left" style="color: white;"></i>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="/owner/produk" class="back-button">
+                <i class="fa-solid fa-arrow-left"></i> Kembali
             </a>
-            @php
-                $uuid = $product->product_id;
-            @endphp
-            <p class="text-3xl font-TripBold my-3 mt-8">Edit Produk</p>
+            <h1 style="margin-right:400px;">Edit Produk</h1>
+        </div>
 
-            {{-- container --}}
-            <div class="rounded-lg shadow-lg w-full bg-white h-fit md:p-16 md:px-24 p-7 overflow-x-auto">
-                <form action="{{ route('product-proccess-update',['id'=> $product->product_id]) }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
+        <div class="form-container">
+            <form action="{{ route('product-proccess-update',['id'=> $product->product_id]) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
 
-                    <div class="flex flex-col justify-center items-center mb-3">
-                        <p class="text-3xl font-TripBold">Edit Produk</p>
-                        {{-- status --}}
-                        <div class="w-fit rounded-lg border-2 shadow p-1.5 px-3 mt-3">
-                            <select name="status" id="" @selected(true) class="outline-none">
-                            @if ($product->product_status != 'exp')
-                                @foreach ($status as $item)
-                                    <option value="{{ $item }}" {{ $product->product_status == $item ? 'selected' : '' }}>
-                                        {{ $item }}
-                                    </option>
-                                @endforeach
-                            @else
-                                <option value="{{ $product->product_status }}">
-                                    Expired
+                <div class="flex flex-col mb-5">
+                    <label for="status">Status</label>
+                    <select name="status" id="status">
+                        @if ($product->product_status != 'exp')
+                            @foreach ($status as $item)
+                                <option value="{{ $item }}" {{ $product->product_status == $item ? 'selected' : '' }}>
+                                    {{ $item }}
                                 </option>
-                                @endif
-                            </select>
-                        </div>
-                        
-                        @error('harga_jual')
-                        <div class="text-xs text-mediumRed">{{ $message }}</div>
-                        @enderror
-                        @if ($product->product_status == 'exp')
-                            <p class="text-s text-red-500">Tambahkan Batch Baru Dengan Exp > 3bulan untuk membuka status dari <a href="/owner/detail-produk/{{ $product->product_id }}" class="underline text-blue-700">detail produk</a></p>
+                            @endforeach
+                        @else
+                            <option value="{{ $product->product_status }}">Expired</option>
                         @endif
+                    </select>
+                    @if ($product->product_status == 'exp')
+                        <p class="text-xs text-red-500 mt-2">Tambahkan Batch Baru Dengan Exp > 3bulan untuk membuka status dari <a href="/owner/detail-produk/{{ $product->product_id }}" class="underline text-blue-700">detail produk</a></p>
+                    @endif
+                </div>
 
-                        <p class="mt-5">Harga Jual Obat</p>
-                        <input type="number" id="" placeholder="Harga Jual Obat" name="harga_jual"
-                            class="p-2 w-auto text-center border rounded-xl shadow @error('harga_jual') is-invalid @enderror" value="{{ $product->product_sell_price }}">
+                <div class="flex flex-col mb-5">
+                    <label for="harga_jual">Harga Jual Obat</label>
+                    <input type="number" id="harga_jual" name="harga_jual" placeholder="Harga Jual Obat" value="{{ $product->product_sell_price }}">
+                </div>
+
+                <div class="grid grid-cols-4 mb-5">
+                    <div class="flex flex-col">
+                        <label for="nama_obat">Nama Obat</label>
+                        <input type="text" id="nama_obat" name="nama_obat" placeholder="Nama Obat" value="{{ $product->product_name }}">
                     </div>
 
-                    <div class="md:flex md:grid-col-4 gap-8 justify-between">
-                        <div class="flex-col w-full">
-                            {{-- Nama Obat --}}
-                            <p class="mt-5">Nama Obat</p>
-                            <input type="text" id="" placeholder="Nama Obat"  name="nama_obat"
-                                class="p-2 w-full border rounded-xl shadow @error('nama_obat') is-invalid @enderror" value="{{ $product->product_name }}">
-                                @error('nama_obat')
-                                <div class="text-xs text-mediumRed">{{ $message }}</div>
-                                @enderror
-
-                            {{-- Kategori Obat --}}
-                            <p class="mt-5">Kategori Obat</p>
-                            <div class="w-full rounded-xl border shadow p-2">
-                                <select name="kategori" id="" @selected(true) class="outline-none w-full">
-                                    @foreach ($categories as $item)
-                                        <option value="{{ $item->category_id }}" {{ $product->description->category->category == $item->category ? 'selected' : '' }}>
-                                            {{ $item->category }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            </div>
-                                @php
-                                    $carbonDate = \Carbon\Carbon::parse( $product->detail()->orderBy('product_expired')->first()->product_expired);
-                                    $formattedDate = $carbonDate->format('Y-m-d');
-                                @endphp
-
-                            <div class="flex-col w-full">
-                            {{-- golongan --}}
-                            <p class="mt-5">Golongan Obat</p>
-                            <div class="w-full rounded-xl border shadow p-2">
-                                <select name="golongan" id="" @selected(true) class="outline-none w-full">
-                                    @foreach ($groups as $item)
-                                        <option value="{{ $item->group_id }}" {{ $product->description->group->group == $item->group ? 'selected' : '' }}>
-                                            {{ $item->group }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                                {{-- satuan --}}
-                                <p class="mt-5">Jenis Obat</p>
-                                <div class="w-full rounded-xl border shadow p-2">
-                                    <select name="satuan_obat" id="" @selected(true) class="outline-none w-full">
-                                        @foreach ($units as $item)
-                                            <option value="{{ $item->unit_id }}" {{ $product->description->unit->unit == $item->unit ? 'selected' : '' }}>
-                                                {{ $item->unit }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                        </div>
-
-                        <div class="flex-col w-full">
-                            <p class="mt-5">NIE Obat</p>
-                            <input type="text" id="" name="NIE" placeholder="NIE Obat" class="p-2 w-full border rounded-xl shadow @error('NIE') is-invalid @enderror" value="{{ $product->description->product_DPN }}">
-                            @error('NIE')
-                                <div class="text-xs text-mediumRed">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="flex-col w-full">
-
-                            <p class="mt-5">Pemasok Obat</p>
-                            {{-- pemasok --}}
-                            <div class="w-full rounded-xl border shadow p-2">
-                                <select name="pemasok" id="" @selected(true) class="outline-none w-full">
-                                    @foreach ($suppliers as $item)
-                                        <option value="{{ $item->supplier_id }}" {{ $product->description->supplier->supplier == $item->supplier ? 'selected' : '' }}>
-                                            {{ $item->supplier }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <p class="mt-5">Produksi dari</p>
-                            <input type="text" id="" placeholder="Produksi dari" name="produksi"
-                                class="p-2 w-full border rounded-xl shadow @error('produksi') is-invalid @enderror" value="{{ $product->description->product_manufacture }}">
-                                @error('produksi')
-                                <div class="text-xs text-mediumRed">{{ $message }}</div>
-                                @enderror
-                        </div>
+                    <div class="flex flex-col">
+                        <label for="kategori">Kategori Obat</label>
+                        <select name="kategori" id="kategori">
+                            @foreach ($categories as $item)
+                                <option value="{{ $item->category_id }}" {{ $product->description->category->category == $item->category ? 'selected' : '' }}>
+                                    {{ $item->category }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
 
-                    <div class="md:flex md:grid-col-2 gap-8 mt-14 justify-between">
-                        <div class="flex-col w-full">
-                            <p class="mt-5">Deskripsi Obat</p>
-                            <textarea type="text" id="" placeholder="Deskripsi Obat" name="deskripsi"
-                            class="p-2 w-full border rounded-xl shadow h-28">{{ $product->description->product_description }}</textarea>
-                        </div>
-                        <div class="flex-col w-full">
-                            <p class="mt-5">Efek Samping Obat</p>
-                            <textarea id="" placeholder="Efek Samping Obat" name="efek_samping"
-                                class="p-2 w-full border rounded-xl shadow h-28">{{ $product->description->product_sideEffect }}</textarea>
-                        </div>
+                    <div class="flex flex-col">
+                        <label for="golongan">Golongan Obat</label>
+                        <select name="golongan" id="golongan">
+                            @foreach ($groups as $item)
+                                <option value="{{ $item->group_id }}" {{ $product->description->group->group == $item-> group ? 'selected' : '' }}>
+                                    {{ $item->group }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
 
-                    <div class="md:flex md:grid-col-2 gap-8 justify-between">
-                        <div class="flex-col w-full">
-                            <p class="mt-5">Dosis Obat</p>
-                            <textarea id="" placeholder="Dosis Obat" name="dosis"
-                                class="p-2 w-full border rounded-xl shadow h-28 @error('dosis') is-invalid @enderror">{{ $product->description->product_dosage }}</textarea>
-                                @error('dosis')
-                                <div class="text-xs text-mediumRed">{{ $message }}</div>
-                                @enderror
-                        </div>
-                        @if ($product->description->product_indication != NULL)
-                            <div class="flex-col w-full">
-                                <p class="mt-5">Indikasi Umum Obat</p>
-                                <textarea id="" placeholder="Indikasi Umum Obat" name="indikasi"
-                                    class="p-2 w-full border rounded-xl shadow h-28">{{ $product->description->product_indication }}</textarea>
-                            </div>
-                        @endif
+                    <div class="flex flex-col">
+                        <label for="satuan_obat">Jenis Obat</label>
+                        <select name="satuan_obat" id="satuan_obat">
+                            @foreach ($units as $item)
+                                <option value="{{ $item->unit_id }}" {{ $product->description->unit->unit == $item->unit ? 'selected' : '' }}>
+                                    {{ $item->unit }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 mb-5">
+                    <div class="flex flex-col">
+                        <label for="NIE">NIE Obat</label>
+                        <input type="text" id="NIE" name="NIE" placeholder="NIE Obat" value="{{ $product->description->product_DPN }}">
                     </div>
 
-                    <div class="md:flex md:grid-col-2 gap-8 justify-between">
-                        @if ($product->description->product_notice != NULL)
-                            <div class="flex-col w-full">
-                                <p class="mt-5">Peringatan Obat</p>
-                                <textarea id="" placeholder="Peringatan Obat" name="peringatan"
-                                    class="p-2 w-full border rounded-xl shadow h-28">{{ $product->description->product_notice }}"></textarea>
-                            </div>
-                        @endif
+                    <div class="flex flex-col">
+                        <label for="pemasok">Pemasok Obat</label>
+                        <select name="pemasok" id="pemasok">
+                            @foreach ($suppliers as $item)
+                                <option value="{{ $item->supplier_id }}" {{ $product->description->supplier->supplier == $item->supplier ? 'selected' : '' }}>
+                                    {{ $item->supplier }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
 
-                        <div class="md:flex w-6/12">
-                            <div class="w-[200px] h-[170px] p-1 mt-8">
-                                @if (file_exists(public_path('storage/gambar-obat/' . $product->description->product_photo)) && $product->description->product_photo !== NULL)
-                                <img src="{{ asset('storage/gambar-obat/'.$product->description->product_photo) }}" id="uploadedFile" alt="Current Image" class="max-w-full max-h-full">
+                <div class="flex flex-col mb-5">
+                    <label for="produksi">Produksi dari</label>
+                    <input type="text" id="produksi" name="produksi" placeholder="Produksi dari" value="{{ $product->description->product_manufacture }}">
+                </div>
+
+                <div class="grid grid-cols-2 mb-5">
+                    <div class="flex flex-col">
+                        <label for="deskripsi">Deskripsi Obat</label>
+                        <textarea id="deskripsi" name="deskripsi" placeholder="Deskripsi Obat">{{ $product->description->product_description }}</textarea>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <label for="efek_samping">Efek Samping Obat</label>
+                        <textarea id="efek_samping" name="efek_samping" placeholder="Efek Samping Obat">{{ $product->description->product_sideEffect }}</textarea>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 mb-5">
+                    <div class="flex flex-col">
+                        <label for="dosis">Dosis Obat</label>
+                        <textarea id="dosis" name="dosis" placeholder="Dosis Obat">{{ $product->description->product_dosage }}</textarea>
+                    </div>
+
+                    @if ($product->description->product_indication != NULL)
+                        <div class="flex flex-col">
+                            <label for="indikasi">Indikasi Umum Obat</label>
+                            <textarea id="indikasi" name="indikasi" placeholder="Indikasi Umum Obat">{{ $product->description->product_indication }}</textarea>
+                        </div>
+                    @endif
+                </div>
+
+                <div class="grid grid-cols-2 mb-5">
+                    @if ($product->description->product_notice != NULL)
+                        <div class="flex flex-col">
+                            <label for="peringatan">Peringatan Obat</label>
+                            <textarea id="peringatan" name="peringatan" placeholder="Peringatan Obat">{{ $product->description->product_notice }}</textarea>
+                        </div>
+                    @endif
+
+                    <div class="upload-container" style="margin-left:80px;" >
+                        <label for="gambar_obat" style="margin-right:80px;">Gambar Produk</label>
+                        <div class="image-preview">
+                            @if (file_exists(public_path('storage/gambar-obat/' . $product->description->product_photo)) && $product->description->product_photo !== NULL)
+                                <img src="{{ asset('storage/gambar-obat/'.$product->description->product_photo) }}" id="uploadedFile" alt="Current Image">
                             @else
-                                <img src="{{ asset('img/obat1.jpg')}}" id="uploadedFile" alt="Current Image" class="max-w-full max-h-full">    
+                                <img src="{{ asset('img/obat1.jpg')}}" id="uploadedFile" alt="Current Image">
                             @endif
                         </div>
 
-                        <div class="ms-3 mt-3.5">
-                            <input type="file" id="file2" name="gambar_obat" class="invisible" accept="image/*" onchange="showFile(this)">
-                            <button id="file" onclick="document.getElementById('file2').click(); return false;" class="p-2 w-full border rounded-xl shadow">
-                                <div class="flex items-center gap-2">
-                                    <i class="fa-solid fa-arrow-up-from-bracket p-2 px-2.5 rounded-full bg-mainColor w-fit ms-2" style="color: white;"></i>
-                                    <p class="text-mediumGrey">Upload Gambar Produk</p>
-                                </div   >
-                            </button>
-                            <p class="text-xs text-mediumRed mt-2">*Maks 2MB</p>
-                        </div>
-                        </div>
+                        <input type="file" id="file2" name="gambar_obat" class="invisible" accept="image/*" onchange="showFile(this)">
+                        <button id="file" onclick="document.getElementById('file2').click(); return false;" style="margin-left:60px;">
+                            <i class="fa-solid fa-arrow-up-from-bracket" ></i> Upload Gambar Produk
+                        </button> 
+                        <p class="text-xs text-mediumRed mt-2" style="margin-left:70px;">*Maks 2 MB</p>
                     </div>
+                </div>
 
-                    <div class="flex justify-center mt-8">
-                    <button type="submit" class="w-48 bg-mainColor px-4 py-2 font-semibold text-lg text-white rounded-lg shadow shadow-semiBlack">Edit</button>
-                    </div>
-                </form>
-            </div>
-
-            @php
-                $i=1;
-            @endphp
-            @foreach ($product->detail()->orderBy('product_expired')->get() as $detail)
-                <div class="rounded-lg mt-16 shadow-lg w-full bg-white h-fit md:p-16 md:px-24 p-7 overflow-x-auto">
-                    <div class="flex flex-col justify-center items-center mb-3">
-                            <p class="text-3xl font-TripBold">{{ $product->product_name }} (Batch {{ $i }})</p>
-
-                            <p class="mt-5 text-red-500">Tidak Dapat Melakukan Editing Pada Batch</p>
-                        </div>
-
-                        <div class="md:flex md:grid-col-4 gap-8 justify-between">
-                            <div class="flex-col w-full">
-                                {{-- Harga Beli Obat --}}
-                                <p class="mt-5">Harga Beli Obat</p>
-                                <input type="number" id="" placeholder="Harga Beli Obat" name="harga_beli" 
-                                    class="p-2 w-full border rounded-xl shadow @error('nama_obat') is-invalid @enderror text-slate-400" value="{{ number_format($detail->product_buy_price, 0, ',', '.') }}" readonly>
-                                </div>
-                                @php
-                                        $carbonDate = \Carbon\Carbon::parse( $detail->product_expired);
-                                        $formattedDate = $carbonDate->format('Y-m-d');
-                                    @endphp
-
-                                <div class="flex-col w-full">
-                                <p class="mt-5">Expired Obat</p>
-                                <input type="date" id="" placeholder="Expired Obat" name="expired_date"
-                                    class="p-2 w-full border rounded-xl shadow @error('expired_date') is-invalid @enderror text-slate-400" value="{{ $formattedDate }}" readonly>
-                            </div>
-
-                            <div class="flex-col w-full">
-                                <p class="mt-5">Stok Obat</p>
-                                <input type="number" id="" placeholder="Stok Obat" name="stock"
-                                    class="p-2 w-full border rounded-xl shadow @error('stock') is-invalid @enderror text-slate-400" value="{{ $detail->product_stock }}" readonly>
-                            </div>
-                        </div>
-
-                        <div class="flex justify-center mt-8">
-                            <button disabled class="w-48 bg-slate-300 px-4 py-2 font-semibold text-lg text-white rounded-lg shadow shadow-semiBlack">Edit</button>
-                        </div>
-                    </div>
-                    @php
-                        $i++;
-                    @endphp
-                @endforeach
-            </div>
+                <div class="flex justify-right mt-8" style="margin-top:20px; margin-left:850px;">
+                    <button type="submit" style="background-color: rgb(0, 245, 0)">Edit</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script>
         function showFile(input) {
-        const getFile = document.getElementById('uploadedFile');
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = (e) => {
-                getFile.src = e.target.result;
-            };
-            reader.readAsDataURL(input.files[0]);
+            const getFile = document.getElementById('uploadedFile');
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = (e) => {
+                    getFile.src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
             }
         }
     </script>
 </body>
+
 </html>
