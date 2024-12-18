@@ -142,7 +142,6 @@ class OwnerController extends Controller
             'golongan' => ['required'],
             'satuan_obat' => ['required'],
             'NIE' => ['required', 'size:15'],
-            'tipe' => ['required'],
             'pemasok' => ['required'],
             'produksi' => ['required', 'min:5', 'max:255'],
             'deskripsi' => ['required'],
@@ -162,7 +161,7 @@ class OwnerController extends Controller
                 $formatted = $carbonDate->format('Y-m-d H:i:s');
                 $GambarObat = $validated_data['gambar_obat']->store('gambar-obat');
 
-                DB::connection('owner')->statement('CALL add_product_procedure(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+                DB::connection('owner')->statement('CALL add_product_procedure(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
                     $request->id,
                     $request->nama_obat,
                     $request->status,
@@ -172,7 +171,6 @@ class OwnerController extends Controller
                     $request->golongan,
                     $request->satuan_obat,
                     $request->NIE,
-                    $request->tipe,
                     $request->pemasok,
                     $request->produksi,
                     $request->deskripsi,
@@ -226,7 +224,6 @@ class OwnerController extends Controller
                 'golongan' => ['required'],
                 'satuan_obat' => ['required'],
                 'NIE' => ['required', 'size:15'],
-                'tipe' => ['required'],
                 'pemasok' => ['required'],
                 'produksi' => ['required', 'min:5', 'max:255'],
                 'deskripsi' => ['required', 'regex:/^[a-zA-Z0-9 - .]+$/'],
@@ -242,7 +239,6 @@ class OwnerController extends Controller
                 'golongan' => ['required'],
                 'satuan_obat' => ['required'],
                 'NIE' => ['required', 'size:15'],
-                'tipe' => ['required'],
                 'pemasok' => ['required'],
                 'produksi' => ['required', 'min:5', 'max:255'],
                 'deskripsi' => ['required', 'regex:/^[a-zA-Z0-9 - .]+$/'],

@@ -51,7 +51,7 @@ return new class extends Migration
             VALUES (product_id_param, detail_id_param, harga_beli_param, expired_date_param, stock_param);
 
             INSERT INTO invoice_buying_details (buying_detail_id, buying_invoice_id, product_name, product_buy_price, exp_date, quantity)
-            VALUES (UUID(), existing_invoice_id, (SELECT product_name FROM products WHERE product_id = product_id_param COLLATE utf8mb4_unicode_ci), harga_beli_param, expired_date_param, stock_param);
+            VALUES (UUID(), existing_invoice_id, (SELECT product_name FROM produk WHERE product_id = product_id_param COLLATE utf8mb4_unicode_ci), harga_beli_param, expired_date_param, stock_param);
 
             IF is_transaction_successful THEN
                 COMMIT;

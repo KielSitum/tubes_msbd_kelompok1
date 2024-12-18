@@ -25,7 +25,6 @@ return new class extends Migration
             IN golongan CHAR(36),
             IN satuan_obat CHAR(36),
             IN NIE VARCHAR(15),
-            IN tipe VARCHAR(255),
             IN pemasok CHAR(36),
             IN produksi VARCHAR(255),
             IN deskripsi LONGTEXT,
@@ -54,18 +53,18 @@ return new class extends Migration
             START TRANSACTION;
 
             SELECT bi.buying_invoice_id INTO existing_invoice_id
-            FROM buying_invoices bi
+            FROM invoice_buying bi
             JOIN suppliers s ON bi.supplier_name COLLATE utf8mb4_unicode_ci = s.supplier COLLATE utf8mb4_unicode_ci
             WHERE s.supplier_id COLLATE utf8mb4_unicode_ci = pemasok
                 AND DATE_FORMAT(bi.order_date, '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d')
             LIMIT 1;
 
             IF existing_invoice_id IS NULL THEN
-                INSERT INTO buying_invoices (buying_invoice_id, supplier_name, order_date)
+                INSERT INTO invoice_buying (buying_invoice_id, supplier_name, order_date)
                 VALUES (UUID(), (SELECT s.supplier COLLATE utf8mb4_unicode_ci FROM suppliers s WHERE s.supplier_id COLLATE utf8mb4_unicode_ci = pemasok), NOW());
 
                 SELECT buying_invoice_id INTO existing_invoice_id
-                FROM buying_invoices
+                FROM invoice_buying
                 WHERE supplier_name COLLATE utf8mb4_unicode_ci = (SELECT s.supplier COLLATE utf8mb4_unicode_ci FROM suppliers s WHERE s.supplier_id COLLATE utf8mb4_unicode_ci = pemasok)
                 AND DATE_FORMAT(order_date, '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d')
                 ORDER BY order_date DESC
