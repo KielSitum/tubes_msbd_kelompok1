@@ -95,6 +95,48 @@
             max-width: 100%;
             height: auto;
         }
+
+        /* Enhancing Table Design */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            padding: 10px 15px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #ADD8E6;
+            color: white;
+            font-weight: bold;
+            border-bottom: 2px solid #ddd;
+        }
+
+        table td {
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table tr:nth-child(even) td {
+            background-color: #f2f8fc;
+        }
+
+        table tr:hover {
+            background-color: #e6f7ff;
+        }
+
+        /* Responsive Table */
+        @media screen and (max-width: 768px) {
+            table {
+                font-size: 14px;
+            }
+            table th, table td {
+                padding: 8px;
+            }
+        }
     </style>
 </head>
 
@@ -107,56 +149,6 @@
                 @include('pemilik.components.navbar')
 
                 <p class="text-3xl font-bold ms-16">Dashboard</p>
-            </div>
-
-            <div class="md:flex gap-6 justify-between">
-                <div class="bg-white p-8 rounded-lg shadow-lg w-full">
-                    <div class="flex gap-8 md:justify-center items-center">
-                        <div class="border-2 border-mainColor p-4 rounded-full">
-                            <i class="fa-solid fa-spinner fa-2xl"></i>
-                        </div>
-                        <div>
-                            <p class="text-md text-mediumGrey font-bold">Pesanan Menunggu Pengembalian</p>
-                            <p class="text-lg font-bold">{{ $pending }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white p-8 rounded-lg shadow-lg w-full">
-                    <div class="flex gap-8 items-center">
-                        <div class="border-2 border-mainColor p-4 rounded-full">
-                            <i class="fa-solid fa-prescription-bottle-medical fa-2xl"></i>
-                        </div>
-                        <div>
-                            <p class="text-md text-mediumGrey font-bold">Produk</p>
-                            <p class="text-lg font-bold">{{ $product }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white p-8 rounded-lg shadow-lg w-full">
-                    <div class="flex gap-8 items-center">
-                        <div class="border-2 border-mainColor p-4 rounded-full">
-                            <i class="fa-solid fa-users fa-2xl"></i>
-                        </div>
-                        <div>
-                            <p class="text-md text-mediumGrey font-bold">User</p>
-                            <p class="text-lg font-bold">{{ $user }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white p-8 rounded-lg shadow-lg w-full">
-                    <div class="flex gap-8 items-center">
-                        <div class="border-2 border-mainColor p-4 rounded-full">
-                            <i class="fa-solid fa-truck fa-2xl"></i>
-                        </div>
-                        <div>
-                            <p class="text-md text-mediumGrey font-bold">Supplier</p>
-                            <p class="text-lg font-bold">{{ $supplier }}</p>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <div class="md:flex gap-6">
